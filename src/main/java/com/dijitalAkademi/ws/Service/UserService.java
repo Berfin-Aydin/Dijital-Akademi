@@ -1,5 +1,6 @@
 package com.dijitalAkademi.ws.Service;
 
+import com.dijitalAkademi.ws.Dto.RegistrationRequest;
 import com.dijitalAkademi.ws.Dto.UserDto;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserService {
     Long deleteUser(Long id);
 
     List<UserDto> getUsers();
+
+    Boolean register(RegistrationRequest registrationRequest);
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import axios from 'axios';
 import "./Login.css"
+import {loginHandler} from "../redux/authActions";
+import {connect} from 'react-redux'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     state = {
         userEmailAddress: "",
         userPassword: "",
@@ -18,22 +20,28 @@ export default class Login extends React.Component {
         })
     }
 
-    onClickSave = () => {
+    onClickSave = async () => {
         //butona tıkladığında veri tabanına kayıt etme
         const { userEmailAddress, userPassword } = this.state
         const body = {
-            UserEmailAddress: userEmailAddress,
-            UserPassword: userPassword
+            userName: userEmailAddress,
+            password: userPassword
         }
         //veritabanı bağlantısını kuralım
-        axios.post("/login", body).then(e => {
-            //eğer başarılı ise burası çalışacak
-            console.log("veriler", e);
-            console.log("login", e.status)
-        }).catch(err => {
-            //hata
+        // axios.post("/login", body).then(e => {
+        //     //eğer başarılı ise burası çalışacak
+        //     console.log("veriler", e);
+        //     console.log("login", e.status)
+        // }).catch(err => {
+        //     //hata
+        //     console.log("error", err)
+        // })
+        try{
+            await this.props.loginHandlers(body);
+            console.log("props", this.props)
+        }catch (err) {
             console.log("error", err)
-        })
+        }
 
     }
     render() {
@@ -88,5 +96,18 @@ export default class Login extends React.Component {
 
 }
 
+const mapStateToProps = (store) => {
+    return {
+        loginHandler: store.image
+    }
+}
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loginHandlers: (body) => {
+            return dispatch(loginHandler(body));
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 

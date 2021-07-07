@@ -1,10 +1,12 @@
 package com.dijitalAkademi.ws.Service.Impl;
 
+import com.dijitalAkademi.ws.Dto.RegistrationRequest;
 import com.dijitalAkademi.ws.Dto.UserDto;
 import com.dijitalAkademi.ws.Repository.UserRepository;
 import com.dijitalAkademi.ws.Service.UserService;
 import com.dijitalAkademi.ws.entity.User;
 import javassist.NotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +18,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
-
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     // veritabanında gönderdiğiklerim  user frontend gönderdikleirm veritabanına dto olacak
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -124,6 +127,23 @@ public class UserServiceImpl implements UserService {
         userDto.setUserGender(user.getUserGender());
         userDto.setUserEmailAddress(userDto.getUserEmailAddress());
         return userDto;
+    }
+
+    @Override
+    public Boolean register(RegistrationRequest registrationRequest) {
+        try {
+            User user = new User();
+            user.setUserName(registrationRequest.getUserName());
+            user.setUserGender(registrationRequest.getUserGender());
+            user.setUserSurname(registrationRequest.getUserSurname());
+            user.setUserPhone(registrationRequest.getUserPhone());
+            user.setUserPassword(bCryptPasswordEncoder.encode(registrationRequest.getUserPassword()));//password  şifreleyerek koyacak
+            user.setUserEmailAddress(registrationRequest.getUserEmailAddress());
+            userRepository.save(user);
+            return Boolean.TRUE;
+        }catch (Exception e){
+            return Boolean.FALSE;
+        }
     }
 
 /*

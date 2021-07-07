@@ -3,8 +3,10 @@ import 'react-phone-number-input/style.css'
 import "./SignUp.css"
 import { InputMask } from 'primereact/inputmask';
 import axios from 'axios';
+import {connect} from "react-redux";
+import {signupHandler} from "../redux/authActions";
 
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
 
     state = {
         userEmailAddress: "",
@@ -14,7 +16,6 @@ export default class SignUp extends React.Component {
         userSurname: "",
         userGender: "",
         userPhone: "",
-        errorPassword: "",
         errorUserPasswordRepeat: "",
         errorPassword: "",
         errorEmail: "",
@@ -46,16 +47,16 @@ export default class SignUp extends React.Component {
         }
     }
 
-    onClickSave = () => {
+    onClickSave = async () => {
         //butona tıkladığında veri tabanına kayıt etme
         const { userEmailAddress, userPassword, userName, userSurname, userGender, userPhone, userPasswordRepeat } = this.state
         const body = {
-            UserEmailAddress: userEmailAddress,
-            UserPassword: userPassword,
-            UserName: userName,
-            UserSurname: userSurname,
-            UserGender: userGender,
-            UserPhone: userPhone
+            userEmailAddress: userEmailAddress,
+            userPassword: userPassword,
+            userName: userName,
+            userSurname: userSurname,
+            userGender: userGender,
+            userPhone: userPhone
         }
 
         //e posta
@@ -87,15 +88,21 @@ export default class SignUp extends React.Component {
             return;
         }
 
-        //veritabanı bağlantısını kuralım
-        axios.post("/register", body).then(e => {
-            //eğer başarılı ise burası çalışacak
-            console.log("veriler", e);
-            console.log("login", e.status)
-        }).catch(err => {
-            //hata
+        try{
+            await this.props.signupHandler(body);
+        }catch (err) {
             console.log("error", err)
-        })
+        }
+
+        // //veritabanı bağlantısını kuralım
+        // axios.post("/register", body).then(e => {
+        //     //eğer başarılı ise burası çalışacak
+        //     console.log("veriler", e);
+        //     console.log("login", e.status)
+        // }).catch(err => {
+        //     //hata
+        //     console.log("error", err)
+        // })
 
     }
 
@@ -209,3 +216,18 @@ export default class SignUp extends React.Component {
 
 }
 
+const mapStateToProps = (store) => {
+    return {
+        loginHandler: store.image
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signupHandler: (body) => {
+            return dispatch(signupHandler(body));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
