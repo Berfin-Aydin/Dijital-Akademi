@@ -29,3 +29,7 @@ export const setAuthorizationHeader = ({isLoggedIn, token}) => {
 export const getNotes = () => {
     return axios.get('/api/note/getNotes');
 }
+
+export const addNote = (body, category) => {
+    return axios.post(`/api/note/${category}`, body);
+}

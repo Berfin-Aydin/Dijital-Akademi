@@ -54,8 +54,8 @@ class SignUp extends React.Component {
             userEmailAddress: userEmailAddress,
             userPassword: userPassword,
             userName: userName,
-            userSurname: userSurname,
             userGender: userGender,
+            userSurname: userSurname,
             userPhone: userPhone
         }
 

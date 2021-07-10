@@ -3,6 +3,7 @@ package com.dijitalAkademi.ws.Dto;
 import com.dijitalAkademi.ws.entity.User;
 import lombok.Data;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class NoteDto {
@@ -19,5 +20,7 @@ public class NoteDto {
     User notePublisherUserId;
 
     private String notePublisherComment;
+
+    private MultipartFile multipartFile;
 
 }

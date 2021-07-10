@@ -23,7 +23,8 @@ export default class Navbar extends React.Component {
                             <div className="navbar-nav mx-lg-auto">
                                 <a className="nav-item nav-link active" href="#" aria-current="page"> Mağaza </a>
                                 <a className="nav-item nav-link" href="#"> Kütüphanem</a>
-                                <a className="nav-item nav-link" href="#">Yüklediklerim</a>
+                                <Link className="nav-link" to="/uploadedPage">Yüklediklerim </Link>
+
                                 <a className="nav-item nav-link" href="#">Hakkında</a>
                             </div>
 

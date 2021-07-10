@@ -20,19 +20,20 @@ public class NoteServiceImpl implements NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public NoteDto addedNote( MultipartFile file) {
+    public NoteDto addedNote(MultipartFile file, String category) {
         String docname = file.getOriginalFilename(); //seçilen dosyanın adını aldık
-        byte[] decode = new byte[0];
+         byte[] decode = new byte[0];
 //        try {
 //            decode = Base64.getDecoder().decode(file.getBytes());
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
         try {
+            byte[] arr = file.getBytes();
             Note doc = new Note();
             doc.setDocName(docname);
             doc.setDocType(file.getContentType());
-            doc.setData(file.getBytes());
+            doc.setData(arr);
             //doc.setNoteCategory(noteDto.getNoteCategory());
             noteRepository.save(doc);
             return null;

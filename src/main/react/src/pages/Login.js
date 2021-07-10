@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./Login.css"
 import {loginHandler} from "../redux/authActions";
 import {connect} from 'react-redux'
-
+import {useHistory} from 'react-router-dom'
 class Login extends React.Component {
     state = {
         userEmailAddress: "",
@@ -22,11 +22,15 @@ class Login extends React.Component {
 
     onClickSave = async () => {
         //butona tıkladığında veri tabanına kayıt etme
+
+
         const { userEmailAddress, userPassword } = this.state
         const body = {
             userName: userEmailAddress,
             password: userPassword
+
         }
+
         //veritabanı bağlantısını kuralım
         // axios.post("/login", body).then(e => {
         //     //eğer başarılı ise burası çalışacak
@@ -38,10 +42,12 @@ class Login extends React.Component {
         // })
         try{
             await this.props.loginHandlers(body);
-            console.log("props", this.props)
+            this.props.history.push("/")
+
         }catch (err) {
             console.log("error", err)
         }
+
 
     }
     render() {
@@ -77,9 +83,9 @@ class Login extends React.Component {
                                     <div className="form-group col-md-9" >
                                         <button
                                             className="btn btnRegister"
-                                            onClick={this.onClickSave}
+                                            onClick={(this.onClickSave)}
 
-                                        >Register</button>
+                                        >Giriş yap</button>
 
                                     </div>
                                 </div>

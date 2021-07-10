@@ -21,9 +21,9 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping
-    public ResponseEntity<NoteDto> addedNote( @RequestBody MultipartFile multipartFile){
-        return ResponseEntity.ok(noteService.addedNote( multipartFile));
+    @PostMapping("/{category}")
+    public ResponseEntity<NoteDto> addedNote(@PathVariable String category,  @RequestBody MultipartFile multipartFile){
+        return ResponseEntity.ok(noteService.addedNote( multipartFile, category));
 
     }
 

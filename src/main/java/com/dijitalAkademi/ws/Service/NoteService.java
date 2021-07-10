@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface NoteService  {
 
-    NoteDto addedNote( MultipartFile multipartFile);
+    NoteDto addedNote( MultipartFile multipartFile, String category);
 
     List<NoteDto> getNotes();
 

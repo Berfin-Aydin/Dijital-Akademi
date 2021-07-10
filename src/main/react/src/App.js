@@ -12,6 +12,7 @@ import {Route, Router} from "react-router-dom"
 import 'primeflex/primeflex.css';
 import Navbar from './pages/Navbar';
 import Profile from './pages/Profile';
+import UploadedPage from "./pages/UploadedPage";
 
 class App extends React.Component {
 
@@ -21,6 +22,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Dashboard}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signUp" component={SignUp}/>
+                <Route path="/uploadedPage" component={UploadedPage}/>
             </div>
         );
     }
