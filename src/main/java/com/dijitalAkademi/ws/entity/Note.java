@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,11 +24,12 @@ public class Note implements Serializable {
 
     @Column(name="category")
     //@NotNull
-    private String noteCategory;
+    @Enumerated(EnumType.STRING)
+    private Categories noteCategory;
 
     @Column(name="note_date")
    // @NotNull
-    private String noteDate;
+    private Date noteDate;
 
     @Column(name="download_count")
     private int noteDownloadCount;

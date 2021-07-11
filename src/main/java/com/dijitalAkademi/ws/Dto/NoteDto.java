@@ -1,5 +1,6 @@
 package com.dijitalAkademi.ws.Dto;
 
+import com.dijitalAkademi.ws.entity.Categories;
 import com.dijitalAkademi.ws.entity.User;
 import lombok.Data;
 import org.springframework.ui.Model;
@@ -7,17 +8,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class NoteDto {
+    private Long noteId;
+
     private String noteName;
 
     private Model model;
 
-    private String noteCategory;
+    private Categories noteCategory;
 
     private String noteFilePath;
 
     private int noteDownloadCount;
 
-    User notePublisherUserId;
+    private byte[] data;
+
+    private String notePublisherUserId;
 
     private String notePublisherComment;
 

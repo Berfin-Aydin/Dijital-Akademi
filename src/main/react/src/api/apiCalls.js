@@ -30,6 +30,13 @@ export const getNotes = () => {
     return axios.get('/api/note/getNotes');
 }
 
-export const addNote = (body, category) => {
-    return axios.post(`/api/note/${category}`, body);
+export const addNote = (body, category, userName) => {
+    return axios.post(`/api/note/${userName}/${category}`, body);
+}
+
+export const addNoteToLibrary = (userName, note ) => {
+    return axios.post(`/api/library/addLibrary/${userName}`, note);
+}
+export const getLibraryNotes = (userName) => {
+    return axios.get(`/api/library/getLibraryNotes/${userName}`);
 }

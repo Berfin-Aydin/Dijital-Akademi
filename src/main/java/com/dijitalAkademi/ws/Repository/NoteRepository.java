@@ -14,7 +14,13 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Query(value=
             "SELECT * FROM Note l1 WHERE l1.note_id IN (:noteId)",
             nativeQuery=true)
-    List<Note> findAllByNoteIds(@Param("noteId") Long[] noteId);
+    List<Note> findAllByNoteIds(@Param("noteId") List<Long> noteId);
+
+    //List<Note> getByNoteIdIn(List<Long> noteId);
+
+    List<Note> getByNoteIdIn(Long[] note);
+
+    void findAllByNoteIdIn(List<?> groups);
 
 
 }

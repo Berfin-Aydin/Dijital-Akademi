@@ -3,7 +3,10 @@ package com.dijitalAkademi.ws.Contoller;
 
 import com.dijitalAkademi.ws.Dto.NoteDto;
 import com.dijitalAkademi.ws.Service.NoteService;
+import com.dijitalAkademi.ws.entity.Categories;
 import com.dijitalAkademi.ws.entity.Note;
+import com.dijitalAkademi.ws.entity.User;
+import com.dijitalAkademi.ws.shared.CurrentUser;
 import com.dijitalAkademi.ws.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +24,12 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping("/{category}")
-    public ResponseEntity<NoteDto> addedNote(@PathVariable String category,  @RequestBody MultipartFile multipartFile){
-        return ResponseEntity.ok(noteService.addedNote( multipartFile, category));
+    @PostMapping("/{userName}/{category}")
+    public ResponseEntity<NoteDto> addedNote(@PathVariable(value = "category") Categories category,
+                                             @RequestBody MultipartFile multipartFile,
+                                             @PathVariable(value = "userName") String userName){
+        System.out.println(userName);
+        return ResponseEntity.ok(noteService.addedNote( multipartFile, category, userName));
 
     }
 

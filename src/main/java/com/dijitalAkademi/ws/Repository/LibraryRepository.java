@@ -14,5 +14,7 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
     void deleteByNoteId(Long id);
 
     @Query(value="select note_id from Library  where Library.username =:username", nativeQuery=true)
-    Long[] getAllByUserName(@Param("username") String username);
+    List<String> getAllByUserName(@Param("username") String username);
+
+    List<Library> findAllByUserName(String userName);
 }

@@ -11,17 +11,18 @@ import {RadioButton} from "primereact/radiobutton";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {addNote} from "../api/apiCalls";
+import {connect} from "react-redux";
 
 
 class UploadNote extends Component {
 
     state = {
         file: undefined,
-        category: "MAtematik",
-        files: null
+        files: null,
+        selectedCategory: undefined
     }
+
     onChangeFile=(event)=>{
-        console.log("vent", event.target.files)
         if(event.target.files.length <1){
             return;
         }
@@ -39,16 +40,32 @@ class UploadNote extends Component {
     }
 
     onClickUpload = async ()=> {
-        const {file, category, files} = this.state;
-        console.log("file", file)
+        const {file, files, selectedCategory} = this.state;
         const attachment = new FormData();
-
         attachment.append("multipartFile", files)
-        const response  = await addNote(attachment, category);
+        const userName = this.props.loginSuccess.userName
+        const response  = await addNote(attachment, selectedCategory.code, userName);
 
     }
 
+    onCategoryChange =(event)=>{
+        this.setState({
+            selectedCategory: event.value
+        })
+    }
+
     render() {
+            const categories = [
+            {name: 'MATEMATIK', code: 'MATEMATIK'},
+            {name: 'KIMYA', code: 'KIMYA'},
+            {name: 'GEOMETRI', code: 'GEOMETRI'},
+            {name: 'BIYOLOJI', code: 'BIYOLOJI'},
+            {name: 'BILGISAYAR', code: 'BILGISAYAR'},
+            {name: 'TARIH', code: 'TARIH'},
+            {name: 'TURKCE', code: 'TURKCE'},
+            {name: 'EDEBIYAT', code: 'EDEBIYAT'}
+        ];
+
         return (
             <div className="form-group">
                 <InputText className="form-control-file" type="file" onChange={this.onChangeFile}/>
@@ -62,7 +79,12 @@ class UploadNote extends Component {
 
                     <div className="p-col-12 p-md-12">
                         <div className="p-inputgroup">
-                            <Dropdown optionLabel="name" placeholder="Kategori Seçiniz" />
+                            <Dropdown
+                                options={categories}
+                                onChange={this.onCategoryChange}
+                                value={this.state.selectedCategory}
+                                       optionLabel="name"
+                                placeholder="Kategori Seçiniz" />
                         </div>
                     </div>
 
@@ -73,5 +95,10 @@ class UploadNote extends Component {
         );
     }
 }
+const mapStateToProps = (store) => {
+    return {
+        loginSuccess: store
+    }
+}
 
-export default UploadNote;
+export default connect(mapStateToProps)(UploadNote);
