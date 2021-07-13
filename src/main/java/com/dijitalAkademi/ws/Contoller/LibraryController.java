@@ -3,6 +3,7 @@ package com.dijitalAkademi.ws.Contoller;
 import com.dijitalAkademi.ws.Dto.LibraryDto;
 import com.dijitalAkademi.ws.Dto.NoteDto;
 import com.dijitalAkademi.ws.Service.LibraryService;
+import com.dijitalAkademi.ws.entity.Library;
 import com.dijitalAkademi.ws.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class LibraryController {
     }
 
     @GetMapping("/getLibraryNotes/{userName}")
-    public ResponseEntity<List<LibraryDto>> getLibraryNotes(@PathVariable String userName){
+    public ResponseEntity<List<Library>> getLibraryNotes(@PathVariable String userName){
 
         return ResponseEntity.ok(libraryService.getLibraryNotes(userName));
     }

@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+
 @Data
 public class NoteDto {
     private Long noteId;
@@ -13,6 +15,8 @@ public class NoteDto {
     private String noteName;
 
     private Model model;
+
+    private Date date;
 
     private Categories noteCategory;
 

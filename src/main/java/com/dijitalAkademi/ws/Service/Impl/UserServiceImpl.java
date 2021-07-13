@@ -67,13 +67,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUser(Long id) {
+    public UserDto getUser(String userName) {
         //yeni bir satır açmama gerek yok zatenbenim satırım var sadece giriş biligileri kontorl edilecek
-        User user = userRepository.findByUserId(id);//kullanıcının verdiği id değerine sahip entity bulanacak
+        User user = userRepository.findByUserName(userName);
         if (user == null) {
-            throw new IllegalArgumentException("user bulunamadı");
+            throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
-
         UserDto userDto = new UserDto(); // frontEnd bizden UserDto beklediği için entitydeki veriler userDto'ya atanacak
         userDto.setUserEmailAddress(user.getUserEmailAddress());
         userDto.setUserPhone(user.getUserPhone());

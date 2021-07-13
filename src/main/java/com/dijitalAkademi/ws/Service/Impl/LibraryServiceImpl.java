@@ -32,7 +32,13 @@ public class LibraryServiceImpl implements LibraryService {
         if(user == null){
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
-        library.setNoteId(note);//dto göndermediğim için
+        //note.setData(null);
+        Note notes = new Note();
+        notes.setNoteDate(noteDto.getDate());
+        notes.setNoteId(note.getNoteId());
+        notes.setNoteCategory(noteDto.getNoteCategory());
+        notes.setDocName(noteDto.getNoteName());
+        library.setNoteId(notes);//dto göndermediğim için
         library.setUserName(userName);
         libraryRepository.save(library);
         return ("not eklendi");
@@ -50,17 +56,18 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public List<LibraryDto> getLibraryNotes(String username) {
+    public List<Library> getLibraryNotes(String username) {
         List<Library> libraries = libraryRepository.findAllByUserName(username);
-        return libraries.stream()
-                .filter(Objects::nonNull)
-                .map(this::libraryToLibraryDTO)
-                .collect(Collectors.toList());
+        return libraries;
+//        return libraries.stream()
+//                .filter(Objects::nonNull)
+//                .map(this::libraryToLibraryDTO)
+//                .collect(Collectors.toList());
     }
 
     private LibraryDto libraryToLibraryDTO(Library library) {
         LibraryDto libraryDto = new LibraryDto();
-        libraryDto.setUserName(library.getUserName());
+        //libraryDto.setUserName(library.getUserName());
         libraryDto.setNoteId(library.getNoteId());
         return libraryDto;
     }

@@ -24,7 +24,7 @@ export default class Navbar extends React.Component {
                                 <a className="nav-item nav-link active" href="#" aria-current="page"> Mağaza </a>
                                 <Link className="nav-link" to="/libraryPage">Kütüphanem </Link>
                                 <Link className="nav-link" to="/uploadedPage">Yüklediklerim </Link>
-
+                                <Link className="nav-link" to="/profile">Profil</Link>
                                 <a className="nav-item nav-link" href="#">Hakkında</a>
                             </div>
 

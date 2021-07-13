@@ -17,4 +17,6 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
     List<String> getAllByUserName(@Param("username") String username);
 
     List<Library> findAllByUserName(String userName);
+
+    Library findByUserName(String username);
 }

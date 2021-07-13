@@ -25,6 +25,7 @@ class App extends React.Component {
                 <Route path="/signUp" component={SignUp}/>
                 <Route path="/uploadedPage" component={UploadedPage}/>
                 <Route path="/libraryPage" component={LibraryPage}/>
+                <Route path="/profile" component={Profile}/>
             </div>
         );
     }

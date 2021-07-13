@@ -171,7 +171,7 @@ class SignUp extends React.Component {
                                             <div className="form-group ">
                                                 <div className="maxl">
                                                     <label className="radio inline">
-                                                        <input type="radio" name="gender" value="male" checked />
+                                                        <input type="radio" name="gender" value="male"  checked />
                                                         <span> Kadın  </span>
                                                     </label>
                                                     <label className="radio inline">

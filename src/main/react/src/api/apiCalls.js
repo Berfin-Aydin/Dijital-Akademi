@@ -40,3 +40,7 @@ export const addNoteToLibrary = (userName, note ) => {
 export const getLibraryNotes = (userName) => {
     return axios.get(`/api/library/getLibraryNotes/${userName}`);
 }
+//profile için
+export const getUser = (userName) => {
+    return axios.get(`/api/user/getUser/${userName}`);
+}
