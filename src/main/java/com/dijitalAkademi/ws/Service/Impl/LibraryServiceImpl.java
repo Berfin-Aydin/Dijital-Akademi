@@ -29,17 +29,22 @@ public class LibraryServiceImpl implements LibraryService {
         Library library = new Library();//library yeni bir veri eklenecek yeni bir satır oluşturacağım için new dedim
         Note note = noteServiceImp.getNoteById(noteDto.getNoteId());
         User user = userRepository.findByUserName(userName);
+        if(note == null){
+            throw new IllegalArgumentException("Not bulunamadı");
+        }
         if(user == null){
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
-        //note.setData(null);
+        //library.setNoteId(note);//dto göndermediğim için
         Note notes = new Note();
-        notes.setNoteDate(noteDto.getDate());
-        notes.setNoteId(note.getNoteId());
-        notes.setNoteCategory(noteDto.getNoteCategory());
         notes.setDocName(noteDto.getNoteName());
-        library.setNoteId(notes);//dto göndermediğim için
+        notes.setNoteId(note.getNoteId());
+        notes.setDocType(noteDto.getNoteFilePath());
+        notes.setNoteCategory(noteDto.getNoteCategory());
+        notes.setData(null);
+        notes.setNoteDate(noteDto.getNoteDate());
         library.setUserName(userName);
+        library.setNoteId(notes);
         libraryRepository.save(library);
         return ("not eklendi");
     }
@@ -67,7 +72,9 @@ public class LibraryServiceImpl implements LibraryService {
 
     private LibraryDto libraryToLibraryDTO(Library library) {
         LibraryDto libraryDto = new LibraryDto();
-        //libraryDto.setUserName(library.getUserName());
+        libraryDto.setUserName(library.getUserName());
+        library.getNoteId().setData(null);
+        library.getNoteId().setNotePublisherUserId(null);
         libraryDto.setNoteId(library.getNoteId());
         return libraryDto;
     }

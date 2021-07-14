@@ -16,7 +16,7 @@ public class NoteDto {
 
     private Model model;
 
-    private Date date;
+    private Date noteDate;
 
     private Categories noteCategory;
 

@@ -1,5 +1,6 @@
 package com.dijitalAkademi.ws.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,8 @@ import java.util.Set;
 @AllArgsConstructor // dolu Constructor
 @NoArgsConstructor
 @Entity
-@Table(name="library")
-public class Library  implements Serializable {
+@Table(name = "library")
+public class Library implements Serializable {
 
     @Id
     @GeneratedValue
@@ -32,16 +33,11 @@ public class Library  implements Serializable {
 
 //deneme
 
-//not yazdığımda bağlantı sağlanmıyor çünkü üsteki note ile çakışma söz konusu
+    //not yazdığımda bağlantı sağlanmıyor çünkü üsteki note ile çakışma söz konusu
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "note_id")
     private Note noteId;
-
-
-
-
-
-
 
 
 }
