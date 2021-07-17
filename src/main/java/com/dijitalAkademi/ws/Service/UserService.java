@@ -9,7 +9,7 @@ public interface UserService {
 
     UserDto createUser(UserDto userDto);
 
-    UserDto  updateUser(Long id,UserDto userDto);
+    UserDto  updateUser(String userName,UserDto userDto);
 
     UserDto getUser(String userName);
 

@@ -44,3 +44,7 @@ export const getLibraryNotes = (userName) => {
 export const getUser = (userName) => {
     return axios.get(`/api/user/getUser/${userName}`);
 }
+//update
+export const updateUser = (userName, body) => {
+    return axios.post(`/api/user/updateUser/${userName}`, body);
+}

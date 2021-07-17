@@ -47,19 +47,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(String userName, UserDto userDto) {
         //new demedşm çünkü yeni bir satır açmama gerek kalmadı zaten satrım var
 
-        User user = userRepository.findByUserId(id); //id'ye sahip olan entity bulunacak
+        User user = userRepository.findByUserName(userName); //id'ye sahip olan entity bulunacak
         if (user == null) {
             throw new IllegalArgumentException("user bulunamadı");
         }
 //user tarafından güncellencek olan bilgiler tekrar user entity'e atandı
+        user.setUserId(user.getUserId());
+        user.setUserEmailAddress(userDto.getUserEmailAddress());
         user.setUserName(userDto.getUserName());
         user.setUserGender(userDto.getUserGender());
         user.setUserSurname(userDto.getUserSurname());
         user.setUserPhone(userDto.getUserPhone());
-        user.setUserPassword(userDto.getUserPassword());
+        //user.setUserPassword(userDto.getUserPassword());
         userRepository.save(user);
 
 
