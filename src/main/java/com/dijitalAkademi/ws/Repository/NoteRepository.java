@@ -1,5 +1,6 @@
 package com.dijitalAkademi.ws.Repository;
 
+import com.dijitalAkademi.ws.entity.Categories;
 import com.dijitalAkademi.ws.entity.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,17 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> getByNoteIdIn(Long[] note);
 
     void findAllByNoteIdIn(List<?> groups);
+
+
+    List<Note> findAllByNoteCategory(Categories categories);
+
+    List<Note> getAllByNoteCategory(Categories categories);
+
+    Note getByNoteCategory(String category);
+
+
+
+    //Note findByNoteCategory(Categories categories);
 
 
 }

@@ -17,7 +17,7 @@ import {connect} from "react-redux";
 class UploadNote extends Component {
 
     state = {
-        file: undefined,
+        file: null,
         files: null,
         selectedCategory: undefined
     }
@@ -30,21 +30,36 @@ class UploadNote extends Component {
         const file = event.target.files[0];
         const fileReader = new  FileReader();
 
+        console.log("event", event.target.name)
         fileReader.onloadend = () => {
             this.setState({
                 file:fileReader.result,
-                files: file
+                //file:fileReader.result.split(',')[1]
             })
+            console.log("file", fileReader)
         }
         fileReader.readAsDataURL(file);
+
     }
 
     onClickUpload = async ()=> {
-        const {file, files, selectedCategory} = this.state;
-        const attachment = new FormData();
-        attachment.append("multipartFile", files)
+        const {file, selectedCategory} = this.state;
+        // const attachment = new FormData();
+        // attachment.append("multipartFile", files)
         const userName = this.props.loginSuccess.userName
-        const response  = await addNote(attachment, selectedCategory.code, userName);
+        const body = {
+            noteName:"",
+            noteDate: null,
+            noteCategory: null,
+            noteFilePath: null,
+            notePublisherUserId: null,
+            notePublisherComment: null,
+            multipartFile: null,
+            noteDownloadCount: 0,
+            data: file,
+
+        }
+        const response  = await addNote(body, selectedCategory.code, userName);
 
     }
 
@@ -55,7 +70,7 @@ class UploadNote extends Component {
     }
 
     render() {
-            const categories = [
+        const categories = [
             {name: 'MATEMATIK', code: 'MATEMATIK'},
             {name: 'KIMYA', code: 'KIMYA'},
             {name: 'GEOMETRI', code: 'GEOMETRI'},
@@ -69,6 +84,7 @@ class UploadNote extends Component {
         return (
             <div className="form-group">
                 <InputText className="form-control-file" type="file" onChange={this.onChangeFile}/>
+                {/*<input className="form-control-file" type="file" onChange={this.onChangeFile}/>*/}
 
                 <div className="p-grid p-fluid">
                     <div className="p-col-12 p-md-12">
@@ -83,7 +99,7 @@ class UploadNote extends Component {
                                 options={categories}
                                 onChange={this.onCategoryChange}
                                 value={this.state.selectedCategory}
-                                       optionLabel="name"
+                                optionLabel="name"
                                 placeholder="Kategori Seçiniz" />
                         </div>
                     </div>

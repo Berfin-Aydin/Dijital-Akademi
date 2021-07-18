@@ -11,5 +11,5 @@ public interface LibraryService {
 
     String  deleteLibrary(Long id);
 
-    List<Library> getLibraryNotes(String username);
+    List<LibraryDto> getLibraryNotes(String username);
 }

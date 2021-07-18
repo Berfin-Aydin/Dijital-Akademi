@@ -24,7 +24,7 @@ public class NoteDto {
 
     private int noteDownloadCount;
 
-    private byte[] data;
+    private String data;
 
     private String notePublisherUserId;
 

@@ -29,7 +29,7 @@ public class LibraryController {
     }
 
     @GetMapping("/getLibraryNotes/{userName}")
-    public ResponseEntity<List<Library>> getLibraryNotes(@PathVariable String userName){
+    public ResponseEntity<List<LibraryDto>> getLibraryNotes(@PathVariable String userName){
 
         return ResponseEntity.ok(libraryService.getLibraryNotes(userName));
     }

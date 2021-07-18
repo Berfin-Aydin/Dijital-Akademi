@@ -10,6 +10,7 @@ import com.dijitalAkademi.ws.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,28 +25,39 @@ public class NoteServiceImpl implements NoteService {
         this.userRepository = userRepository;
     }
 
-    public NoteDto addedNote(MultipartFile file, Categories category, String userName) {
+    public NoteDto addedNote(NoteDto file, Categories category, String userName) {
 
         User user = userRepository.findByUserName(userName);
         if (user == null) {
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
 
-        String docname = file.getOriginalFilename(); //seçilen dosyanın adını aldık
+        //String docname = file.getOriginalFilename(); //seçilen dosyanın adını aldık
         try {
-            byte[] arr = file.getBytes();
+
             Note doc = new Note();
-            doc.setDocName(docname);
+            //doc.setDocName(docname);
             doc.setNoteCategory(category);
             doc.setNoteDate(new Date());
             doc.setNotePublisherUserId(user);
-            doc.setDocType(file.getContentType());
-            doc.setData(arr);
+            //doc.setDocType(file.getContentType());
+            doc.setData(file.getData());
             noteRepository.save(doc);
-            return null;
+
+            NoteDto noteDto = new NoteDto();
+            noteDto.setData(file.getData());
+            return noteDto;
         } catch (Exception exception) {
             throw new IllegalArgumentException("hata oluştu");
         }
+    }
+
+    @Override
+    @Transactional
+    public String getNoteData(Long noteId) {
+        Note note = noteRepository.getOne(noteId);
+        System.out.println("note" + note.getData());
+        return note.getData();
     }
 
     @Override
@@ -77,6 +89,19 @@ public class NoteServiceImpl implements NoteService {
             throw new IllegalArgumentException("not bulunamadı");
         }
         return id;
+    }
+
+    @Override
+    public List<NoteDto> searchNote(Categories category) {
+
+       List<Note> noteList1=noteRepository.findAllByNoteCategory(category);
+
+        System.out.println(noteList1);
+       // return null;
+        return noteList1.stream()
+               .filter(Objects::nonNull)
+                .map(this::noteToNoteDTO)
+                .collect(Collectors.toList());
     }
 
     private NoteDto noteToNoteDTO(Note note) {

@@ -9,10 +9,15 @@ import java.util.List;
 
 public interface NoteService  {
 
-    NoteDto addedNote(MultipartFile multipartFile, Categories category, String userName);
+    NoteDto addedNote(NoteDto multipartFile, Categories category, String userName);
 
     List<NoteDto> getNotes();
 
 
     Long deleteNote(Long id);
+
+    List<NoteDto> searchNote(Categories category);
+
+    String getNoteData(Long noteId);
+
 }

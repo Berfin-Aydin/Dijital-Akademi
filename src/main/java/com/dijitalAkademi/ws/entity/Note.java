@@ -49,7 +49,7 @@ public class Note implements Serializable {
     private String docType;
 
     @Lob
-    private byte[] data;
+    private String data;
 
     @Column(name = "file")
     private String file;

@@ -48,3 +48,11 @@ export const getUser = (userName) => {
 export const updateUser = (userName, body) => {
     return axios.post(`/api/user/updateUser/${userName}`, body);
 }
+//search
+export const searchNote = (category) => {
+    return axios.get(`/api/note/searchNote/${category}`);
+}
+
+export const getNoteData = (noteId) => {
+    return axios.get(`/api/note/noteData/${noteId}`);
+}

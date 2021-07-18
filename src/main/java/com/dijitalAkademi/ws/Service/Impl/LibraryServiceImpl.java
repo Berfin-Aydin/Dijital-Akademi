@@ -41,7 +41,7 @@ public class LibraryServiceImpl implements LibraryService {
         notes.setNoteId(note.getNoteId());
         notes.setDocType(noteDto.getNoteFilePath());
         notes.setNoteCategory(noteDto.getNoteCategory());
-        notes.setData(null);
+        //notes.setData(null);
         notes.setNoteDate(noteDto.getNoteDate());
         library.setUserName(userName);
         library.setNoteId(notes);
@@ -61,21 +61,26 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public List<Library> getLibraryNotes(String username) {
+    public List<LibraryDto> getLibraryNotes(String username) {
         List<Library> libraries = libraryRepository.findAllByUserName(username);
-        return libraries;
-//        return libraries.stream()
-//                .filter(Objects::nonNull)
-//                .map(this::libraryToLibraryDTO)
-//                .collect(Collectors.toList());
+        return libraries.stream()
+                .filter(Objects::nonNull)
+                .map(this::libraryToLibraryDTO)
+                .collect(Collectors.toList());
     }
 
     private LibraryDto libraryToLibraryDTO(Library library) {
         LibraryDto libraryDto = new LibraryDto();
+//        library.getNoteId().setData(null);
+//        library.getNoteId().setNotePublisherUserId(null);
         libraryDto.setUserName(library.getUserName());
-        library.getNoteId().setData(null);
-        library.getNoteId().setNotePublisherUserId(null);
-        libraryDto.setNoteId(library.getNoteId());
+        //libraryDto.setNoteId(library.getNoteId());
+        //libraryDto.getNoteId().setData(null);
+        libraryDto.setNoteId(library.getNoteId().getNoteId());
+        libraryDto.setDocName(library.getNoteId().getDocName());
+        libraryDto.setNoteDate(library.getNoteId().getNoteDate());
+        libraryDto.setNoteCategory(library.getNoteId().getNoteCategory());
+        libraryDto.setDocType(library.getNoteId().getDocType());
         return libraryDto;
     }
 }

@@ -26,7 +26,7 @@ public class NoteController {
 
     @PostMapping("/{userName}/{category}")
     public ResponseEntity<NoteDto> addedNote(@PathVariable(value = "category") Categories category,
-                                             @RequestBody MultipartFile multipartFile,
+                                             @RequestBody NoteDto multipartFile,
                                              @PathVariable(value = "userName") String userName){
         System.out.println(userName);
         return ResponseEntity.ok(noteService.addedNote( multipartFile, category, userName));
@@ -40,6 +40,13 @@ public class NoteController {
         List<NoteDto> list=noteService.getNotes();
         return  ResponseEntity.ok(list);
     }
+    //arama için
+    @GetMapping("/searchNote/{category}")
+    public ResponseEntity<List<NoteDto>> searchNote(@PathVariable(value="category") Categories category){
+        List<NoteDto> list1=noteService.searchNote(category);
+        return ResponseEntity.ok(list1) ;
+
+    }
 
 
     //not silme olacak id'ye göre
@@ -47,6 +54,11 @@ public class NoteController {
     public ResponseEntity<Long> deleteNote(@PathVariable(name="id") Long id){
         return ResponseEntity.ok(noteService.deleteNote(id));
 
+    }
+
+    @GetMapping("/noteData/{noteId}")
+    public ResponseEntity<String> getNoteData(@PathVariable Long noteId){
+        return ResponseEntity.ok(noteService.getNoteData(noteId));
     }
 
 }
