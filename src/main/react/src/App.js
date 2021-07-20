@@ -14,6 +14,7 @@ import Navbar from './pages/Navbar';
 import Profile from './pages/Profile';
 import UploadedPage from "./pages/UploadedPage";
 import LibraryPage from "./pages/LibraryPage";
+import AdminPage from "./pages/AdminPage";
 
 class App extends React.Component {
 
@@ -26,6 +27,7 @@ class App extends React.Component {
                 <Route path="/uploadedPage" component={UploadedPage}/>
                 <Route path="/libraryPage" component={LibraryPage}/>
                 <Route path="/profile" component={Profile}/>
+                <Route path="/adminPage" component={AdminPage}/>
             </div>
         );
     }

@@ -1,0 +1,23 @@
+body {
+    font-family: "Lato", sans-serif;
+}
+
+:root {
+    --primary: #212529;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.text-purple {
+    color: var(--primary);
+}
+
+.bg-purple {
+    background-color: var(--primary);
+    color:white;
+}
+.card-body{
+    background-color: #393E46;
+}
