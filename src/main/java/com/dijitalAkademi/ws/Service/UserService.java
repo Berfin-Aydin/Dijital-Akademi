@@ -15,9 +15,11 @@ public interface UserService {
 
     UserDto login(UserDto userDto);
 
-    Long deleteUser(Long id);
+    Long deleteUser(Long userName);
 
     List<UserDto> getUsers();
 
     Boolean register(RegistrationRequest registrationRequest);
+
+    String deleteUser1(String userName);
 }

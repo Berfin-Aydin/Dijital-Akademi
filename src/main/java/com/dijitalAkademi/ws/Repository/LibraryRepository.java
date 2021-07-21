@@ -11,9 +11,9 @@ import java.util.List;
 public interface LibraryRepository extends JpaRepository<Library, Long> {
     Library findByNoteId(Long id);
 
-    void deleteByNoteId(Long id);
+     void deleteByNoteId_NoteId(Long id);
 
-    @Query(value="select note_id from Library  where Library.username =:username", nativeQuery=true)
+    @Query(value = "select note_id from Library  where Library.username =:username", nativeQuery = true)
     List<String> getAllByUserName(@Param("username") String username);
 
     List<Library> findAllByUserName(String userName);

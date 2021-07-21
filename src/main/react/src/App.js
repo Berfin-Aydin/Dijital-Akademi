@@ -15,6 +15,8 @@ import Profile from './pages/Profile';
 import UploadedPage from "./pages/UploadedPage";
 import LibraryPage from "./pages/LibraryPage";
 import AdminPage from "./pages/AdminPage";
+import AdminUser from "./pages/AdminUser";
+import AdminNote from "./pages/AdminNote";
 
 class App extends React.Component {
 
@@ -28,6 +30,8 @@ class App extends React.Component {
                 <Route path="/libraryPage" component={LibraryPage}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/adminPage" component={AdminPage}/>
+                <Route path="/adminUser" component={AdminUser}/>
+                <Route path="/adminNote" component={AdminNote}/>
             </div>
         );
     }

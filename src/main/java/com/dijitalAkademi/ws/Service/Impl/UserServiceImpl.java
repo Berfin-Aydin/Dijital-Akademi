@@ -126,7 +126,8 @@ public class UserServiceImpl implements UserService {
         userDto.setUserPhone(user.getUserPhone());
         userDto.setUserName(user.getUserName());
         userDto.setUserGender(user.getUserGender());
-        userDto.setUserEmailAddress(userDto.getUserEmailAddress());
+        userDto.setUserSurname(user.getUserSurname());
+        userDto.setUserEmailAddress(user.getUserEmailAddress());
         return userDto;
     }
 
@@ -145,6 +146,19 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             return Boolean.FALSE;
         }
+    }
+
+    @Override
+    public String deleteUser1(String userName) {
+        User user= userRepository.findByUserName(userName);
+        userRepository.delete(user);
+
+        try{
+            //userRepository.deleteByUserName(userName);
+        }catch (Exception e){
+            throw new IllegalArgumentException("user bulunamadı");
+        }
+        return userName;
     }
 
 /*

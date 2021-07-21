@@ -30,7 +30,8 @@ class AdminPage extends Component {
                                     <div className="card-body">
                                         <i className="pi pi-user-edit" style={{'fontSize': '2em'}}></i>
                                         <hr/>
-                                        <p className="card-title lead">Kullanıcılar</p>
+
+                                        <Link className="card-title lead" to="/adminUser">Kullanıcılar </Link>
                                     </div>
                                 </div>
                             </a>
@@ -42,7 +43,7 @@ class AdminPage extends Component {
                                     <div className="card-body">
                                         <i className="pi pi-file" style={{'fontSize': '2em'}}></i>
                                         <hr/>
-                                        <p className="card-title lead">Notlar</p>
+                                        <Link className="card-title lead" to="/adminNote">Notlar </Link>
                                     </div>
                                 </div>
                             </a>

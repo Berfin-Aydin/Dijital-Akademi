@@ -1,10 +1,12 @@
 package com.dijitalAkademi.ws.Service.Impl;
 
 import com.dijitalAkademi.ws.Dto.NoteDto;
+import com.dijitalAkademi.ws.Repository.LibraryRepository;
 import com.dijitalAkademi.ws.Repository.NoteRepository;
 import com.dijitalAkademi.ws.Repository.UserRepository;
 import com.dijitalAkademi.ws.Service.NoteService;
 import com.dijitalAkademi.ws.entity.Categories;
+import com.dijitalAkademi.ws.entity.Library;
 import com.dijitalAkademi.ws.entity.Note;
 import com.dijitalAkademi.ws.entity.User;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,12 @@ public class NoteServiceImpl implements NoteService {
 
     NoteRepository noteRepository;
     UserRepository userRepository;
+    LibraryRepository libraryRepository;
 
-    public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository) {
+    public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository, LibraryRepository libraryRepository) {
         this.noteRepository = noteRepository;
         this.userRepository = userRepository;
+        this.libraryRepository = libraryRepository;
     }
 
     public NoteDto addedNote(NoteDto file, Categories category, String userName) {
@@ -79,16 +83,19 @@ public class NoteServiceImpl implements NoteService {
         return noteId;
     }
 
+
     @Override
-    public Long deleteNote(Long id) {
+    @Transactional
+    public Long deleteNote(Long noteId) {
 
         try {
-            noteRepository.deleteById(id);
+            libraryRepository.deleteByNoteId_NoteId(noteId);
+            noteRepository.deleteById(noteId);
 
         } catch (Exception e) {
-            throw new IllegalArgumentException("not bulunamadı");
+            throw new IllegalArgumentException("not bulunamadı" + e);
         }
-        return id;
+        return noteId;
     }
 
     @Override

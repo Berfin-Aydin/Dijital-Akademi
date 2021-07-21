@@ -50,11 +50,13 @@ public class NoteController {
 
 
     //not silme olacak id'ye göre
-    @DeleteMapping("/deleteNotes/{id}")
-    public ResponseEntity<Long> deleteNote(@PathVariable(name="id") Long id){
-        return ResponseEntity.ok(noteService.deleteNote(id));
+    @DeleteMapping("/deleteNotes/{noteId}")
+    public ResponseEntity<Long> deleteNote(@PathVariable Long noteId){
+        return ResponseEntity.ok(noteService.deleteNote(noteId));
 
     }
+
+
 
     @GetMapping("/noteData/{noteId}")
     public ResponseEntity<String> getNoteData(@PathVariable Long noteId){

@@ -35,7 +35,7 @@ public class Library implements Serializable {
 
     //not yazdığımda bağlantı sağlanmıyor çünkü üsteki note ile çakışma söz konusu
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id")
     private Note noteId;
 

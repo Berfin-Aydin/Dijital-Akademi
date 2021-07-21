@@ -36,7 +36,7 @@ public class Note implements Serializable {
     private int noteDownloadCount;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User notePublisherUserId;
 
@@ -53,16 +53,6 @@ public class Note implements Serializable {
 
     @Column(name = "file")
     private String file;
-
-
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "libraryId")
-//    private Library library;
-
-    //@OneToMany(mappedBy = "notes", cascade = CascadeType.ALL)
-    //JoinColumn(name = "library_id")
-   // private Set<Library> libraries = new HashSet<>();
-
 
 
 }

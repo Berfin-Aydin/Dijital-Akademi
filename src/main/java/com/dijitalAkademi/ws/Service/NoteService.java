@@ -14,7 +14,7 @@ public interface NoteService  {
     List<NoteDto> getNotes();
 
 
-    Long deleteNote(Long id);
+    Long deleteNote(Long noteId);
 
     List<NoteDto> searchNote(Categories category);
 

@@ -48,12 +48,16 @@ public class UserController {
     public ResponseEntity<Long> deleteUser(@PathVariable(name="id") Long id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
-
+    @DeleteMapping("/deleteUser1/{userName}")
+  public ResponseEntity<String> deleteUser1(@PathVariable(value = "userName") String userName){
+        return ResponseEntity.ok(userService.deleteUser1(userName));
+    }
     @GetMapping("/getUsers")
     public ResponseEntity<List<UserDto>> getUsers(){
         List<UserDto> list =  userService.getUsers();
         return ResponseEntity.ok(list);
     }
+
 
 
 

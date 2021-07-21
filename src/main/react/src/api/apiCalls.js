@@ -56,3 +56,15 @@ export const searchNote = (category) => {
 export const getNoteData = (noteId) => {
     return axios.get(`/api/note/noteData/${noteId}`);
 }
+//admin sayfasında user göstermek için
+export const getUsers = () => {
+    return axios.get('/api/user/getUsers');
+}
+//admin user silmek için
+export const deleteUser1 = (userName) => {
+    return axios.delete(`/api/user/deleteUser1/${userName}`);
+}
+//admin not silme
+export const deleteNotes = (noteId) => {
+    return axios.delete(`/api/note/deleteNotes/${noteId}`);
+}

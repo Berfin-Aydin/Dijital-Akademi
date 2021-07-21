@@ -52,7 +52,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public String deleteLibrary(Long id) {
         try {
-            libraryRepository.deleteByNoteId(id);
+            libraryRepository.deleteByNoteId_NoteId(id);
         } catch (Exception e) {
             throw new IllegalArgumentException("Not bulunamadı");
         }
