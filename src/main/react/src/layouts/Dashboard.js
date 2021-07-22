@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import SearchBox from '../pages/SearchBox';
 import NoteList from '../pages/NoteList';
 import Navbar from '../pages/Navbar';
+import Footer from "../pages/Footer";
 
 export default class Dashboard extends Component {
 
@@ -33,6 +34,7 @@ export default class Dashboard extends Component {
                     </div>
 
                 </div>
+                <Footer></Footer>
             </div>
 
         )

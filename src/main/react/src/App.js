@@ -17,6 +17,7 @@ import LibraryPage from "./pages/LibraryPage";
 import AdminPage from "./pages/AdminPage";
 import AdminUser from "./pages/AdminUser";
 import AdminNote from "./pages/AdminNote";
+import AboutPage from "./pages/AboutPage";
 
 class App extends React.Component {
 
@@ -32,6 +33,7 @@ class App extends React.Component {
                 <Route path="/adminPage" component={AdminPage}/>
                 <Route path="/adminUser" component={AdminUser}/>
                 <Route path="/adminNote" component={AdminNote}/>
+                <Route path="/aboutPage" component={AboutPage}/>
             </div>
         );
     }

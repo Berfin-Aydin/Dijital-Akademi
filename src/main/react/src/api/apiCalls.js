@@ -72,3 +72,7 @@ export const deleteNotes = (noteId) => {
 export const getNoteByUserName = (userName) => {
     return axios.get(`/api/note/getNotesByUser/${userName}`);
 }
+//hakkında sayfası
+export const getAbout = (userName) => {
+    return axios.get(`/api/about/getAbout/${userName}`);
+}

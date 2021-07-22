@@ -31,7 +31,8 @@ class Navbar extends React.Component {
                                 <Link className="nav-link" to="/libraryPage">Kütüphanem </Link>
                                 <Link className="nav-link" to="/uploadedPage">Yüklediklerim </Link>
                                 {/*<Link className="nav-link" to="/profile">Profil</Link>*/}
-                                <a className="nav-item nav-link" href="#">Hakkında</a>
+                                <Link className="nav-link" to="/aboutPage">Hakkında</Link>
+
                             </div>
 
                             {isLoggedIn === false ? <>

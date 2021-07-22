@@ -14,4 +14,7 @@ public class ApiPaths {
     public static final class LibraryCtrl{
         public static final String CTRL = BASE_PATH + "/library";
     }
+    public static final class AboutCtrl{
+        public static final String CTRL = BASE_PATH + "/about";
+    }
 }
