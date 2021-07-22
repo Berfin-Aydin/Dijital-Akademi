@@ -68,3 +68,7 @@ export const deleteUser1 = (userName) => {
 export const deleteNotes = (noteId) => {
     return axios.delete(`/api/note/deleteNotes/${noteId}`);
 }
+
+export const getNoteByUserName = (userName) => {
+    return axios.get(`/api/note/getNotesByUser/${userName}`);
+}

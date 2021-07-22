@@ -11,6 +11,7 @@ import com.dijitalAkademi.ws.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -42,9 +43,12 @@ public class NoteController {
     }
     //arama için
     @GetMapping("/searchNote/{category}")
-    public ResponseEntity<List<NoteDto>> searchNote(@PathVariable(value="category") Categories category){
+    public ResponseEntity<?> searchNote(@PathVariable(value="category") Categories category){
         List<NoteDto> list1=noteService.searchNote(category);
-        return ResponseEntity.ok(list1) ;
+        if(list1.isEmpty()){
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(list1);
 
     }
 
@@ -61,6 +65,11 @@ public class NoteController {
     @GetMapping("/noteData/{noteId}")
     public ResponseEntity<String> getNoteData(@PathVariable Long noteId){
         return ResponseEntity.ok(noteService.getNoteData(noteId));
+    }
+
+    @GetMapping("getNotesByUser/{userName}")
+    public ResponseEntity<List<NoteDto>> getNotesByUser(@PathVariable String userName){
+        return ResponseEntity.ok(noteService.getNotesByUser(userName));
     }
 
 }

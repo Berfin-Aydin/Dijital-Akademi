@@ -20,11 +20,18 @@ class NoteList extends Component {
 
     componentDidMount() {
         //Sayfa yüklenirken bir kere çalışır
-        getNotes().then(response => {
+        this.getNotesList();
+
+    }
+    getNotesList= async ()=>{
+        try {
+            const response = await getNotes();
             this.setState({
                 notes: response.data
             });
-        } );
+        }catch (e) {
+            console.log(e)
+        }
     }
 
     confirmAddNote =  (note)=>  {
@@ -37,7 +44,7 @@ class NoteList extends Component {
     actionBodyTemplate =  (rowData) =>  {
         return (
             <React.Fragment>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={()=>this.confirmAddNote(rowData)} />
+                <Button icon="pi pi-upload" className="p-button-rounded p-button-warning" onClick={()=>this.confirmAddNote(rowData)} />
             </React.Fragment>
         );
     }
@@ -71,8 +78,23 @@ class NoteList extends Component {
         }
 
     }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.notes !== prevProps.notes){
+            this.getNotesList();
+        }
+    }
 
     render() {
+        let notes = [];
+        let notFoundNotes = undefined
+        if(this.props.notes === "NOT_FOUND"){
+            notFoundNotes= "Not Bulunamadı"
+        }
+        else if(this.props.notes && this.props.notes.length > 0  ){
+            notes = this.props.notes
+        }else{
+            notes = this.state.notes
+        }
         const addLibraryDialogFooter = (
             <React.Fragment>
                 <Button label="No" icon="pi pi-times" className="p-button-text" onClick={this.hideAddLibraryDialog} />
@@ -82,22 +104,23 @@ class NoteList extends Component {
         return (
             <div>
                 <Toast ref={(el) => this.toast = el} />
-                <DataTable ref={(el) => this.dt = el}
-                           value={this.state.notes}
-                           selection={this.state.selectedNote}
-                           onSelectionChange={(e) => this.setState({ selectedNote: e.value })}
-                           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                           globalFilter={this.state.globalFilter}
-                           header="Notlar">
+                {!notFoundNotes && <DataTable ref={(el) => this.dt = el}
+                                              value={notes}
+                                              selection={this.state.selectedNote}
+                                              onSelectionChange={(e) => this.setState({selectedNote: e.value})}
+                                              dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
+                                              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                                              globalFilter={this.state.globalFilter}
+                                              header="Notlar">
 
-                    <Column headerStyle={{ width: '3rem' }}/>
+                    <Column headerStyle={{width: '3rem'}}/>
                     <Column field="notePublisherUserId" header="Not Yükleyen Kişi" sortable/>
                     <Column field="noteName" header="Name" sortable/>
                     <Column field="noteCategory" header="Category"/>
                     <Column body={this.actionBodyTemplate}/>
-                </DataTable>
+                </DataTable>}
+                {notFoundNotes && <div>{notFoundNotes}</div>}
 
                 <Dialog visible={this.state.addLibraryDialog} style={{ width: '450px' }}
                         header="Confirm" modal footer={addLibraryDialogFooter} onHide={this.hideAddLibraryDialog}>

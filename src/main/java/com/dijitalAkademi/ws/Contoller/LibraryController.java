@@ -14,24 +14,26 @@ import java.util.List;
 @RequestMapping(ApiPaths.LibraryCtrl.CTRL)
 public class LibraryController {
     LibraryService libraryService;
-    public LibraryController(LibraryService libraryService){
-        this.libraryService=libraryService;
+
+    public LibraryController(LibraryService libraryService) {
+        this.libraryService = libraryService;
     }
 
     @PostMapping("/addLibrary/{userName}")
-    public ResponseEntity<String> addLibrary(@PathVariable(value="userName") String  userName, @RequestBody NoteDto noteDto){
+    public ResponseEntity<String> addLibrary(@PathVariable(value = "userName") String userName, @RequestBody NoteDto noteDto) {
         return ResponseEntity.ok(libraryService.addLibrary(noteDto, userName));
     }
 
     @DeleteMapping("/deleteLibrary/{id}")
-    ResponseEntity<String> deleteLibrary(@PathVariable(name="id") Long id){
+    ResponseEntity<String> deleteLibrary(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(libraryService.deleteLibrary(id));
     }
 
     @GetMapping("/getLibraryNotes/{userName}")
-    public ResponseEntity<List<LibraryDto>> getLibraryNotes(@PathVariable String userName){
+    public ResponseEntity<List<LibraryDto>> getLibraryNotes(@PathVariable String userName) {
 
         return ResponseEntity.ok(libraryService.getLibraryNotes(userName));
     }
+
 
 }

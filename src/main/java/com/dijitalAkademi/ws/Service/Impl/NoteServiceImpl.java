@@ -29,7 +29,7 @@ public class NoteServiceImpl implements NoteService {
         this.libraryRepository = libraryRepository;
     }
 
-    public NoteDto addedNote(NoteDto file, Categories category, String userName) {
+    public NoteDto addedNote(NoteDto noteDto, Categories category, String userName) {
 
         User user = userRepository.findByUserName(userName);
         if (user == null) {
@@ -40,17 +40,18 @@ public class NoteServiceImpl implements NoteService {
         try {
 
             Note doc = new Note();
-            //doc.setDocName(docname);
+            doc.setDocName(noteDto.getNoteName());
             doc.setNoteCategory(category);
             doc.setNoteDate(new Date());
             doc.setNotePublisherUserId(user);
+            doc.setDocType(noteDto.getDocType());
             //doc.setDocType(file.getContentType());
-            doc.setData(file.getData());
+            doc.setData(noteDto.getData());
             noteRepository.save(doc);
 
-            NoteDto noteDto = new NoteDto();
-            noteDto.setData(file.getData());
-            return noteDto;
+            NoteDto noteDto1 = new NoteDto();
+            noteDto1.setData(noteDto.getData());
+            return noteDto1;
         } catch (Exception exception) {
             throw new IllegalArgumentException("hata oluştu");
         }
@@ -62,6 +63,16 @@ public class NoteServiceImpl implements NoteService {
         Note note = noteRepository.getOne(noteId);
         System.out.println("note" + note.getData());
         return note.getData();
+    }
+
+    @Override
+    @Transactional
+    public List<NoteDto> getNotesByUser(String userName) {
+        List<Note> noteListByUserName = noteRepository.findAllByNotePublisherUserId_UserName(userName);
+        return noteListByUserName.stream()
+                .filter(Objects::nonNull)
+                .map(this::noteToNoteDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -99,14 +110,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional
     public List<NoteDto> searchNote(Categories category) {
-
-       List<Note> noteList1=noteRepository.findAllByNoteCategory(category);
-
-        System.out.println(noteList1);
-       // return null;
+        List<Note> noteList1 = noteRepository.findAllByNoteCategory(category);
         return noteList1.stream()
-               .filter(Objects::nonNull)
+                .filter(Objects::nonNull)
                 .map(this::noteToNoteDTO)
                 .collect(Collectors.toList());
     }

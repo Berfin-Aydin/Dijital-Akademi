@@ -18,37 +18,42 @@ class UploadNote extends Component {
 
     state = {
         file: null,
-        files: null,
-        selectedCategory: undefined
+        fileType: undefined,
+        selectedCategory: undefined,
+        docName: undefined,
+        errorFileType: false
     }
-
-    onChangeFile=(event)=>{
-        if(event.target.files.length <1){
+    fileType=['application/pdf'];
+    onChangeFile = (event) => {
+        if (event.target.files.length < 1) {
             return;
         }
-
         const file = event.target.files[0];
-        const fileReader = new  FileReader();
+        if(file&& this.fileType.includes(file.type)){
+            const fileReader = new FileReader();
 
-        console.log("event", event.target.name)
-        fileReader.onloadend = () => {
+            fileReader.onloadend = () => {
+                this.setState({
+                    file: fileReader.result,
+                    fileType: file.type
+                })
+            }
+            fileReader.readAsDataURL(file);
             this.setState({
-                file:fileReader.result,
-                //file:fileReader.result.split(',')[1]
+                errorFileType: false
             })
-            console.log("file", fileReader)
+        }else{
+            this.setState({
+                errorFileType: true
+            })
         }
-        fileReader.readAsDataURL(file);
-
     }
 
-    onClickUpload = async ()=> {
-        const {file, selectedCategory} = this.state;
-        // const attachment = new FormData();
-        // attachment.append("multipartFile", files)
+    onClickUpload = async () => {
+        const {file, selectedCategory, docName, fileType} = this.state;
         const userName = this.props.loginSuccess.userName
         const body = {
-            noteName:"",
+            noteName: docName,
             noteDate: null,
             noteCategory: null,
             noteFilePath: null,
@@ -56,17 +61,25 @@ class UploadNote extends Component {
             notePublisherComment: null,
             multipartFile: null,
             noteDownloadCount: 0,
+            docType: fileType,
             data: file,
 
         }
-        const response  = await addNote(body, selectedCategory.code, userName);
+        const response = await addNote(body, selectedCategory.code, userName);
+        this.props.onHideDialog();
 
     }
 
-    onCategoryChange =(event)=>{
+    onCategoryChange = (event) => {
         this.setState({
             selectedCategory: event.value
         })
+    }
+
+    onChangeFileName = (event) => {
+        this.setState({
+            docName: event.target.value
+        });
     }
 
     render() {
@@ -81,15 +94,18 @@ class UploadNote extends Component {
             {name: 'EDEBIYAT', code: 'EDEBIYAT'}
         ];
 
+        const {selectedCategory, errorFileType, docName, } = this.state
+
         return (
             <div className="form-group">
                 <InputText className="form-control-file" type="file" onChange={this.onChangeFile}/>
-                {/*<input className="form-control-file" type="file" onChange={this.onChangeFile}/>*/}
-
+                {errorFileType && <div className='error-msg'>
+                    Yanlış dosya tipi lütfen pdf şeçin
+                </div>}
                 <div className="p-grid p-fluid">
                     <div className="p-col-12 p-md-12">
                         <div className="p-inputgroup">
-                            <InputText placeholder="Dosya Adı"  disabled={true}/>
+                            <InputText placeholder="Dosya Adı" onChange={this.onChangeFileName}/>
                         </div>
                     </div>
 
@@ -98,19 +114,23 @@ class UploadNote extends Component {
                             <Dropdown
                                 options={categories}
                                 onChange={this.onCategoryChange}
-                                value={this.state.selectedCategory}
+                                value={selectedCategory}
                                 optionLabel="name"
-                                placeholder="Kategori Seçiniz" />
+                                placeholder="Kategori Seçiniz"/>
                         </div>
                     </div>
 
-                    <Button label="Not Yükle" onClick={this.onClickUpload} loadingOptions={{ position: 'right' }} />
+                    <Button label="Not Yükle"
+                            disabled={errorFileType || !docName || !selectedCategory}
+                            onClick={this.onClickUpload}
+                            loadingOptions={{position: 'right'}}/>
 
                 </div>
             </div>
         );
     }
 }
+
 const mapStateToProps = (store) => {
     return {
         loginSuccess: store

@@ -20,6 +20,8 @@ public class NoteDto {
 
     private Categories noteCategory;
 
+    private String docType;
+
     private String noteFilePath;
 
     private int noteDownloadCount;

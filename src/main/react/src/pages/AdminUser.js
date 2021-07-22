@@ -8,44 +8,45 @@ import {deleteUser1, getUsers} from "../api/apiCalls";
 import {Button} from "primereact/button";
 
 class AdminUser extends Component {
-    state={
-        users:[],
-        selectedUser:undefined,
-        userSurname:"",
-        user:undefined,
-        userDeleteDialog:false
+    state = {
+        users: [],
+        selectedUser: undefined,
+        userSurname: "",
+        user: undefined,
+        userDeleteDialog: false
     }
+
     componentDidMount() {
-        getUsers().then(response=>{
-            console.log("users",response.data);
+        this.getUser();
+    }
+    getUser =()=>{
+        getUsers().then(response => {
+                console.log("users", response.data);
+                this.setState({
+                        users: response.data
 
-            this.setState({
-
-            users:response.data
-
-
+                    }
+                )
             }
-            )
-            }
-
         )
     }
 
-    confirmAddNote =  (user)=>  {
+    confirmAddNote = (user) => {
         this.setState({
             user: user,
-            userDeleteDialog:true
+            userDeleteDialog: true
         });
     }
 
-    actionBodyTemplate =  (rowData) =>  {
+    actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={()=>this.confirmAddNote(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"
+                        onClick={() => this.confirmAddNote(rowData)}/>
             </React.Fragment>
         );
     }
-    hideDeleteUserDialog =() =>  {
+    hideDeleteUserDialog = () => {
         this.setState({
             userDeleteDialog: false,
             user: undefined
@@ -59,8 +60,9 @@ class AdminUser extends Component {
                 summary: 'Başarılı Mesaj',
                 detail: 'Kullanıcı silindi'
             });
-            this.hideDeleteUserDialog()
-        }catch (err) {
+            this.hideDeleteUserDialog();
+            this.getUser();
+        } catch (err) {
             console.log(err);
             this.toast.show({
                 severity: 'error',
@@ -70,16 +72,17 @@ class AdminUser extends Component {
         }
 
     }
+
     render() {
         const userDeleteDialogFooter = (
             <React.Fragment>
-                <Button label="No" icon="pi pi-times" className="p-button-text" onClick={this.hideDeleteUserDialog} />
-                <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={this.deleteUserToAdmin} />
+                <Button label="No" icon="pi pi-times" className="p-button-text" onClick={this.hideDeleteUserDialog}/>
+                <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={this.deleteUserToAdmin}/>
             </React.Fragment>
         );
         return (
             <div>
-                <Toast ref={(el) => this.toast = el} />
+                <Toast ref={(el) => this.toast = el}/>
                 <DataTable ref={(el) => this.dt = el}
                            value={this.state.users}
                            selection={this.state.selectedUser}
@@ -89,7 +92,7 @@ class AdminUser extends Component {
                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                            globalFilter={this.state.globalFilter}
                            header="Kullanıcılar">
-                    <Column headerStyle={{ width: '3rem' }}/>
+                    <Column headerStyle={{width: '3rem'}}/>
                     <Column field="userEmailAddress" header="E-posta"/>
                     <Column field="userName" header="İsim" sortable/>
                     <Column field="userSurname" header="Soyad"/>
@@ -98,11 +101,12 @@ class AdminUser extends Component {
 
 
                 </DataTable>
-                <Dialog visible={this.state.userDeleteDialog} style={{ width: '450px' }}
+                <Dialog visible={this.state.userDeleteDialog} style={{width: '450px'}}
                         header="Confirm" modal footer={userDeleteDialogFooter} onHide={this.hideDeleteUserDialog}>
                     <div className="confirmation-content">
-                        <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem'}} />
-                        {this.state.user && <span><b>{this.state.user.userName}</b> silmek istediğinize emin  misiniz?  </span>}
+                        <i className="pi pi-exclamation-triangle p-mr-3" style={{fontSize: '2rem'}}/>
+                        {this.state.user &&
+                        <span><b>{this.state.user.userName}</b> silmek istediğinize emin  misiniz?  </span>}
                     </div>
                 </Dialog>
 
@@ -111,6 +115,7 @@ class AdminUser extends Component {
         );
     }
 }
+
 const mapStateToProps = (store) => {
     return {
         loginSuccess: store

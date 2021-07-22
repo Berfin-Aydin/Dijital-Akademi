@@ -20,4 +20,6 @@ public interface NoteService  {
 
     String getNoteData(Long noteId);
 
+    List<NoteDto> getNotesByUser(String userName);
+
 }

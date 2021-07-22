@@ -30,9 +30,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     Note getByNoteCategory(String category);
 
-
-
-    //Note findByNoteCategory(Categories categories);
+    List<Note> findAllByNotePublisherUserId_UserName(String userName);
 
 
 }
