@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {addNoteToLibrary, getNotes} from "../api/apiCalls";
+import {addNoteToLibrary, getNoteData, getNotes} from "../api/apiCalls";
 import {Link} from "react-router-dom";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
@@ -8,6 +8,7 @@ import {Dialog} from "primereact/dialog";
 import {loginHandler, loginSuccess} from "../redux/authActions";
 import {connect} from "react-redux";
 import { Toast } from 'primereact/toast';
+import LibraryPdfViewer from "./LibraryPdfViewer";
 
 class NoteList extends Component {
 
@@ -15,7 +16,8 @@ class NoteList extends Component {
         notes: [],
         addLibraryDialog: false,
         note: undefined,
-        selectedNote: undefined
+        selectedNote: undefined,
+        viewNote:false
     }
 
     componentDidMount() {
@@ -23,6 +25,13 @@ class NoteList extends Component {
         this.getNotesList();
 
     }
+
+    hideViewNoteDialog = () => {
+        this.setState({
+            viewNote: false
+        });
+    }
+
     getNotesList= async ()=>{
         try {
             const response = await getNotes();
@@ -84,6 +93,31 @@ class NoteList extends Component {
         }
     }
 
+    getNoteData = async (rowData) => {
+        if (rowData === {} || rowData === undefined)
+            return;
+        const {noteId} = rowData;
+        try {
+            const response = await getNoteData(noteId);
+            this.setState({
+                noteData: response.data,
+                viewNote: true
+            });
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    viewPdfTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <Button icon="pi pi-eye" className="p-button-rounded p-button-info"
+                        onClick={() => this.getNoteData(rowData)}/>
+            </React.Fragment>
+        );
+    }
+
     render() {
         let notes = [];
         let notFoundNotes = undefined
@@ -118,9 +152,19 @@ class NoteList extends Component {
                     <Column field="notePublisherUserId" header="Not Yükleyen Kişi" sortable/>
                     <Column field="noteName" header="Name" sortable/>
                     <Column field="noteCategory" header="Category"/>
+                    <Column body={this.viewPdfTemplate}/>
                     <Column body={this.actionBodyTemplate}/>
                 </DataTable>}
                 {notFoundNotes && <div>{notFoundNotes}</div>}
+
+                <Dialog visible={this.state.viewNote} style={{width: '100rem'}}
+                        header="Not Detayı" modal onHide={this.hideViewNoteDialog}>
+                    <div>
+                        {this.state.noteData &&
+                        <LibraryPdfViewer viewPdf={this.state.noteData}/>
+                        }
+                    </div>
+                </Dialog>
 
                 <Dialog visible={this.state.addLibraryDialog} style={{ width: '450px' }}
                         header="Confirm" modal footer={addLibraryDialogFooter} onHide={this.hideAddLibraryDialog}>

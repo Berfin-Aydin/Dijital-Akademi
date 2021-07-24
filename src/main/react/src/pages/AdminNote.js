@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {getNotes} from "../api/apiCalls";
+import {getNoteData, getNotes} from "../api/apiCalls";
 import {deleteNotes} from "../api/apiCalls";
 import {Button} from "primereact/button";
 import {Toast} from "primereact/toast";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Dialog} from "primereact/dialog";
+import LibraryPdfViewer from "./LibraryPdfViewer";
 
 class AdminNote extends Component {
     state = {
@@ -14,13 +15,12 @@ class AdminNote extends Component {
         addLibraryDialog: false,
         note: undefined,
         selectedNote: undefined,
-
+        viewNote: false
     }
 
     componentDidMount() {
         //Sayfa yüklenirken bir kere çalışır
         getNotes().then(response => {
-            console.log("bbbeer", response.data)
             this.setState({
                 notes: response.data
             });
@@ -49,6 +49,11 @@ class AdminNote extends Component {
             note: undefined
         });
     }
+    hideViewNoteDialog = () => {
+        this.setState({
+            viewNote: false
+        });
+    }
 
     deleteNoteToAdmin = async () => {
         const {noteId} = this.state.note
@@ -69,6 +74,30 @@ class AdminNote extends Component {
             });
         }
 
+    }
+    getNoteData = async (rowData) => {
+        if (rowData === {} || rowData === undefined)
+            return;
+        const {noteId} = rowData;
+        try {
+            const response = await getNoteData(noteId);
+            this.setState({
+                noteData: response.data,
+                viewNote: true
+            });
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    viewPdfTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <Button icon="pi pi-eye" className="p-button-rounded p-button-info"
+                        onClick={() => this.getNoteData(rowData)}/>
+            </React.Fragment>
+        );
     }
 
     render() {
@@ -95,9 +124,18 @@ class AdminNote extends Component {
                     <Column field="notePublisherUserId" header="Not Yükleyen Kişi" sortable/>
                     <Column field="noteName" header="Name" sortable/>
                     <Column field="noteCategory" header="Category"/>
-                    <Column field="noteId" header="ıd"/>
+                    <Column body={this.viewPdfTemplate}/>
                     <Column body={this.actionBodyTemplate}/>
                 </DataTable>
+
+                <Dialog visible={this.state.viewNote} style={{width: '100rem'}}
+                        header="Not Detayı" modal onHide={this.hideViewNoteDialog}>
+                    <div>
+                        {this.state.noteData &&
+                        <LibraryPdfViewer viewPdf={this.state.noteData}/>
+                        }
+                    </div>
+                </Dialog>
 
                 <Dialog visible={this.state.addLibraryDialog} style={{width: '450px'}}
                         header="Confirm" modal footer={addLibraryDialogFooter} onHide={this.hideAddLibraryDialog}>

@@ -8,44 +8,51 @@ class Login extends React.Component {
     state = {
         userEmailAddress: "",
         userPassword: "",
-        error: false
+        error: false,
+        loginError: false
     }
 
     onChangeInput = (event) => {
-        console.log("event", event)
         //inputları aldım
         const { name, value } = event.target
         this.setState({
-            [name]: value
+            [name]: value,
+            loginError: false
         })
     }
 
-    onClickSave = async () => {
+    onClickSave = async (event) => {
         //butona tıkladığında veri tabanına kayıt etme
-
-
+        const name = event.target.name
         const { userEmailAddress, userPassword } = this.state
         const body = {
             userName: userEmailAddress,
             password: userPassword
-
         }
-
-        //veritabanı bağlantısını kuralım
-        // axios.post("/login", body).then(e => {
-        //     //eğer başarılı ise burası çalışacak
-        //     console.log("veriler", e);
-        //     console.log("login", e.status)
-        // }).catch(err => {
-        //     //hata
-        //     console.log("error", err)
-        // })
         try{
-            await this.props.loginHandlers(body);
-            this.props.history.push("/")
+            const response = await this.props.loginHandlers(body, name);
+            if(response.data !== "UNAUTHORIZED"){
+                console.log("name", name)
+                if(name === "admin"){
+                    this.props.history.push("/adminPage")
+                }else{
+                    this.props.history.push("/")
+
+                }
+                this.setState({
+                    loginError: false
+                })
+            }else{
+                this.setState({
+                    loginError: true
+                })
+            }
 
         }catch (err) {
             console.log("error", err)
+            this.setState({
+                loginError: true
+            })
         }
 
 
@@ -55,7 +62,7 @@ class Login extends React.Component {
             <div className="container register">
                 <div className="row">
                     <div className="col-md-3 register-left">
-                    <h1>Dijital Akademi</h1>
+                        <h1>Dijital Akademi</h1>
                         <p>Ders Notlarını Arkadaşlarınla Paylaş</p>
                     </div>
                     <div className="col-md-9 register-right">
@@ -82,12 +89,22 @@ class Login extends React.Component {
                                     </div>
                                     <div className="form-group col-md-9" >
                                         <button
+                                            name="users"
                                             className="btn btnRegister"
                                             onClick={(this.onClickSave)}
 
                                         >Giriş yap</button>
+                                        <button
+                                            name="admin"
+                                            className="btn btnRegister"
+                                            onClick={(this.onClickSave)}
+
+                                        >Admin Girişi</button>
 
                                     </div>
+                                    {this.state.loginError && <div>
+                                        Hatalı Giriş
+                                    </div>}
                                 </div>
                             </div>
 
@@ -110,8 +127,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginHandlers: (body) => {
-            return dispatch(loginHandler(body));
+        loginHandlers: (body, name) => {
+            return dispatch(loginHandler(body, name));
         }
     }
 }

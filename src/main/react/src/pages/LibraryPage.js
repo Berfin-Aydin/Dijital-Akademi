@@ -32,9 +32,6 @@ class LibraryPage extends Component {
         if (rowData === {} || rowData === undefined)
             return;
         const {noteId} = rowData;
-        getNoteData(noteId).then(response => {
-            console.log("response.data", response.data)
-        })
         try {
             const response = await getNoteData(noteId);
             this.setState({
@@ -83,26 +80,9 @@ class LibraryPage extends Component {
                         <Column body={this.viewPdfTemplate}/>
                     </DataTable>
                     <div>
-                        {/*{this.state.noteData &&*/}
-                        {/*<Document*/}
-                        {/*    file={this.state.noteData}*/}
-                        {/*    //onLoadSuccess={onDocumentLoadSuccess}*/}
-                        {/*/>*/}
-                        {/*}*/}
                         {this.state.noteData &&
                         <LibraryPdfViewer viewPdf={this.state.noteData}/>
-                            // <Document
-                            //     file={this.state.noteData}
-                            //     onLoadSuccess={this.onDocumentLoadSuccess}
-                            // >
-                            //     <Page pageNumber={this.state.pageNumber} />
-                            // </Document>
                         }
-
-
-                        {/*    <Page pageNumber={pageNumber} />*/}
-
-                        {/*<p>Page {pageNumber} of {numPages}</p>*/}
                     </div>
                 </div>
             </>

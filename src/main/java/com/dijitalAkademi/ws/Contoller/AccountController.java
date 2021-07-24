@@ -8,14 +8,14 @@ import com.dijitalAkademi.ws.Service.Impl.UserServiceImpl;
 import com.dijitalAkademi.ws.entity.User;
 import com.dijitalAkademi.ws.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+
 @RestController
 @RequestMapping("/token")
 public class AccountController {
@@ -30,7 +30,7 @@ public class AccountController {
     private UserServiceImpl userService;
 
     //login işlemi
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
         final User user = userRepository.findByUserName(request.getUserName());
@@ -38,11 +38,25 @@ public class AccountController {
         return ResponseEntity.ok(new TokenResponse(user.getUserName(), token));
     }
 
+    @PostMapping("/admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest request) throws AuthenticationException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+        final User user = userRepository.findByUserName(request.getUserName());
+        final String token = jwtTokenUtil.generateToken(user);
+        if(user.getUserStatus() != 1){
+            throw new IllegalArgumentException("hatalı giriş");
+        }
+        return ResponseEntity.ok(new TokenResponse(user.getUserName(), token));
+    }
+
     //Kullanıcı Kayıt işlemii
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> register(@RequestBody RegistrationRequest registrationRequest) throws AuthenticationException {
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest registrationRequest) throws AuthenticationException {
         Boolean response = userService.register(registrationRequest);
-        return ResponseEntity.ok(response);
+        if(!response){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("aynı kullanıcı bulunuyor");
+        }
+        return ResponseEntity.ok(true);
     }
 
 }

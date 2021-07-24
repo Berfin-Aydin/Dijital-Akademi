@@ -32,8 +32,6 @@ class SearchBox extends React.Component {
   }
 
   onCountryChange(e) {
-    console.log("şskfsdkfmsşdfmsdkfsmdfsfmdfkşs")
-    console.log("eeeee", e.value)
     if(e.value === undefined){
       this.setState({
         selectedCountry: e.value
@@ -48,7 +46,6 @@ class SearchBox extends React.Component {
         selectedCountry1: response.data
       });
       this.props.searchNote(response.data)
-      // this.props.searchCategoryHandler(response.data);
     })
   }
 

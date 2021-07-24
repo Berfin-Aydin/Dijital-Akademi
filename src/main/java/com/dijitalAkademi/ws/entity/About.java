@@ -18,15 +18,17 @@ public class About implements Serializable {
     private Long id;
 
     @Column(name="img")
-    private  Long aboutImg;
+    private String aboutImg;
 
     @Column(name="vision")
+
     private String aboutVision;
 
     @Column(name="mission")
     private String aboutMission;
 
     @Column(name="contact")
+
     private String aboutContact;
 
     @Column(name = "user_name")

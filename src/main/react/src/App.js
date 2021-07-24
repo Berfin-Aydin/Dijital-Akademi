@@ -18,7 +18,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminUser from "./pages/AdminUser";
 import AdminNote from "./pages/AdminNote";
 import AboutPage from "./pages/AboutPage";
-
+import AdminAbout from "./pages/AdminAbout";
 class App extends React.Component {
 
     render() {
@@ -34,6 +34,7 @@ class App extends React.Component {
                 <Route path="/adminUser" component={AdminUser}/>
                 <Route path="/adminNote" component={AdminNote}/>
                 <Route path="/aboutPage" component={AboutPage}/>
+                <Route path="/adminAbout" component={AdminAbout}/>
             </div>
         );
     }

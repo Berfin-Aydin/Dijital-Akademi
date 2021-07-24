@@ -9,10 +9,11 @@ import {connect} from "react-redux";
 import {logoutSuccess, signupHandler} from "../redux/authActions";
 
 class Navbar extends React.Component {
-    onClickLogout=()=>{
+    onClickLogout = () => {
         console.log("çıkış yap")
         this.props.logoutSuccess();
     }
+
     render() {
         const {isLoggedIn, userName} = this.props.loginSuccess
         return (
@@ -51,14 +52,15 @@ class Navbar extends React.Component {
                                     </div>
                                 </> :
                                 <>
-                                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 col-md-2 ">
+                                    <div className="d-flex align-items-lg-center  col-md-1 p-mr-5 ">
 
                                         <Button class="btn btn-secondary" component={Link} to="/profile">
                                             {userName}
                                         </Button>
                                     </div>
-                                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 ">
-                                        <Button class="btn btn-primary" onClick={this.onClickLogout} component={Link} to="/login">
+                                    <div className="d-flex align-items-lg-center col-md-0 ">
+                                        <Button class="btn btn-secondary" onClick={this.onClickLogout} component={Link}
+                                                to="/login">
                                             Çıkış Yap
                                         </Button>
                                     </div>
@@ -89,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

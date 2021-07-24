@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsers() {
 
         List<User> userList = userRepository.findAll();
-       return userList.stream()
+        return userList.stream()
                 .filter(Objects::nonNull)
                 .map(this::userToUserDTO)
                 .collect(Collectors.toList());
@@ -134,6 +134,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean register(RegistrationRequest registrationRequest) {
         try {
+            User userByUserName = userRepository.findByUserName(registrationRequest.getUserName());
+            if(userByUserName != null){
+                return Boolean.FALSE;
+            }
             User user = new User();
             user.setUserName(registrationRequest.getUserName());
             user.setUserGender(registrationRequest.getUserGender());
@@ -160,13 +164,5 @@ public class UserServiceImpl implements UserService {
         }
         return userName;
     }
-
-/*
-    OneToOne  1:1
-    OneToMany 1:n
-    ManyToOne: n:1
-    ManyToMany n:n
-*/
-
 
 }

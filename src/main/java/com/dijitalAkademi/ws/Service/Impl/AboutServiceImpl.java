@@ -33,13 +33,13 @@ aboutRepository.save(about);
     @Override
     public AboutDto getAbout(String userName) {
         About about=aboutRepository.findByUserName(userName);
-        if(userName==null){
+        if(userName==null || about == null){
             throw new IllegalArgumentException("Hakkımda bilgisi bulunamadı");
         }
         //veritabına bir değişiklik yapmauyacğım için AboutDTO kullandım
         AboutDto aboutDto=new AboutDto();
         aboutDto.setUserName(about.getUserName()); //about get ile oku bunu dto(kullanıcıya gösterdiğim yere ata kullanıc setlenerek görünsün
-        aboutDto.setAboutImg(about.getAboutImg());
+       // aboutDto.setAboutImg(about.getAboutImg());
         aboutDto.setAboutVision(about.getAboutVision());
         aboutDto.setAboutMission(about.getAboutMission());
         aboutDto.setAboutContact(about.getAboutContact());

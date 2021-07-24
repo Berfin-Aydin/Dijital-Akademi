@@ -4,9 +4,9 @@ export const signup = (body) => {
     return axios.post("/token/register", body);
 };
 
-export const login = creds => {
+export const login = (creds, name) => {
     {
-        return axios.post('/token', creds);
+        return axios.post(`/token/${name}`, creds);
     }
 }
 export const logout = () => {

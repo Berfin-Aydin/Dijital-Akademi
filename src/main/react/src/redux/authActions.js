@@ -19,9 +19,9 @@ export const loginSuccess = (authState) => {
     };
 }
 
-export const loginHandler = (credentials) => {
+export const loginHandler = (credentials, name) => {
     return async function (dispatch) {
-        const response = await login(credentials);
+        const response = await login(credentials, name);
         const authState = {
             ...response.data.user,
             userName: response.data.userName,
@@ -42,7 +42,8 @@ export const signupHandler = (user) => {
             userName,
             password:userPassword
         }
-        await dispatch(loginHandler(body));
+        const users = "users"
+        await dispatch(loginHandler(body,users));
         return response;
     };
 }

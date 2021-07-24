@@ -1,11 +1,14 @@
 package com.dijitalAkademi.ws.Contoller;
 
 import com.dijitalAkademi.ws.Dto.AboutDto;
+import com.dijitalAkademi.ws.Dto.LibraryDto;
 import com.dijitalAkademi.ws.Dto.UserDto;
 import com.dijitalAkademi.ws.Service.AboutService;
 import com.dijitalAkademi.ws.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController // Controller olduğunu belirttik
 @RequestMapping(ApiPaths.AboutCtrl.CTRL)
@@ -19,9 +22,11 @@ public class AboutController {
         return ResponseEntity.ok(aboutService.createAbout(aboutDto,userName));
     }
     @GetMapping("/getAbout/{userName}")
-    ResponseEntity<AboutDto> getAbout(@PathVariable(value = "userName") String userName){
+   public ResponseEntity<AboutDto> getAbout(@PathVariable(value = "userName") String userName){
         AboutDto aboutDto=aboutService.getAbout(userName);
         return ResponseEntity.ok(aboutDto);
     }
 
 }
+
+

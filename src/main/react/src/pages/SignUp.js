@@ -21,14 +21,15 @@ class SignUp extends React.Component {
         errorEmail: "",
         errorName: "",
         erorSurname: "",
-        isValid: false
+        isValid: false,
+        errorUniqueUserName: false
     }
     onChangeInput = (event) => {
-        console.log("event", event)
         //inputları aldım
         const { name, value } = event.target
         this.setState({
-            [name]: value
+            [name]: value,
+            errorUniqueUserName: false
         })
         if (event.target.name === "userPasswordRepeat") {
             this.setState({
@@ -89,20 +90,17 @@ class SignUp extends React.Component {
         }
 
         try{
-            await this.props.signupHandler(body);
+            const response = await this.props.signupHandler(body);
+            this.setState({
+                errorUniqueUserName: false
+            })
+            this.props.history.push("/")
         }catch (err) {
             console.log("error", err)
+            this.setState({
+                errorUniqueUserName: true
+            })
         }
-
-        // //veritabanı bağlantısını kuralım
-        // axios.post("/register", body).then(e => {
-        //     //eğer başarılı ise burası çalışacak
-        //     console.log("veriler", e);
-        //     console.log("login", e.status)
-        // }).catch(err => {
-        //     //hata
-        //     console.log("error", err)
-        // })
 
     }
 
@@ -195,6 +193,12 @@ class SignUp extends React.Component {
                                                 <InputMask className="form-control " id="phone" name="userPhone" mask="(999) 999-9999" value={this.state.userPhone} placeholder="(999) 999-9999" onChange={this.onChangeInput} />
                                                 <label htmlFor="phone">Telefon</label>
                                             </div>
+                                        </div>
+                                        <div>
+                                            {this.state.errorUniqueUserName &&
+                                            <div>
+                                                Kullanıcı adı benzersiz olmalı
+                                            </div>}
                                         </div>
                                         <button
                                             className="btn btnRegister"
