@@ -64,7 +64,7 @@ class Login extends React.Component {
                     <div className="col-md-3 register-left">
                         <h1>Dijital Akademi</h1>
                         <p>Ders Notlarını Arkadaşlarınla Paylaş</p>
-                        <Link className="nav-link lead" to="/signUp" ><input type="submit" name="" value="Sing up" /></Link>
+                        <Link className="nav-link lead" to="/signUp" ><input type="submit" name="" value="Üye Ol" /></Link>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">

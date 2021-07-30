@@ -160,7 +160,7 @@ class Profile extends Component {
                                             className="btn btn-success"
                                             onClick={this.onClickSave}
                                             disabled={userSurname === "" && userPhone === ""}
-                                        >Register</Button>
+                                        >Güncelle</Button>
                                     </div>
                                 </div>
                             </div>

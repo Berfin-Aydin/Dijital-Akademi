@@ -115,7 +115,7 @@ class SignUp extends React.Component {
                         <h1>Dijital Akademi</h1>
                         <p>Ders Notlarını Arkadaşlarınla Paylaş</p>
                         {/*<input type="submit" name="" value="Login" /><br />*/}
-                        <Link className="nav-link lead" to="/login" ><input type="submit" name="" value="Login" /></Link>
+                        <Link className="nav-link lead" to="/login" ><input type="submit" name="" value="Giriş Yap" /></Link>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">
@@ -167,20 +167,7 @@ class SignUp extends React.Component {
 
                                             </div>
                                         </div>
-                                        <div className="form-group mb-6">
-                                            <div className="form-group ">
-                                                <div className="maxl">
-                                                    <label className="radio inline">
-                                                        <input type="radio" name="gender" value="male"  checked />
-                                                        <span> Kadın  </span>
-                                                    </label>
-                                                    <label className="radio inline">
-                                                        <input type="radio" name="gender" value="female" />
-                                                        <span> Erkek </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div className="col-md-6" >
                                         <div className="form-group mb-3">
@@ -206,7 +193,7 @@ class SignUp extends React.Component {
                                             className="btn btnRegister btn-secondary"
                                             onClick={this.onClickSave}
                                             disabled={userEmailAddress === ""}
-                                        >Register</button>
+                                        >Üye Ol</button>
                                     </div>
                                 </div>
                             </div>
