@@ -10,18 +10,21 @@ import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
 import UploadNote from "./UploadNote";
 import Navbar from "./Navbar";
-import {getNoteByUserName, getNoteData} from "../api/apiCalls";
+import {deleteNotes, deleteNotesFromLibrary, getNoteByUserName, getNoteData} from "../api/apiCalls";
 import {connect} from "react-redux";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import LibraryPdfViewer from "./LibraryPdfViewer";
 import {Toolbar} from "primereact/toolbar";
+import {Toast} from "primereact/toast";
 
 class UploadedPage extends Component {
 
     state = {
         visibilityDialog: false,
-        notes: []
+        notes: [],
+        note: undefined,
+        removeNoteDialog: false
     }
 
     componentDidMount() {
@@ -76,24 +79,6 @@ class UploadedPage extends Component {
         );
     }
 
-    header = () => {
-        return (
-            <div className="container">
-                <Button style={{'fontSize': '1.5em'}} onClick={this.onClickDialog}> Not Yükle
-                </Button>
-                {/*<i className="pi pi-upload" style={{'fontSize': '1.5em'}} onClick={this.onClickDialog}></i>*/}
-
-                <Dialog
-                    visible={this.state.visibilityDialog}
-                    onHide={this.onHideDialog}
-                    header="Ders Notu Yükle"
-                >
-                    <UploadNote onHideDialog={this.onHideDialog}/>
-                </Dialog>
-
-            </div>
-        )
-    }
     rightToolbarTemplate = () => {
         return (
             <React.Fragment>
@@ -109,7 +94,7 @@ class UploadedPage extends Component {
                         onHide={this.onHideDialog}
                         header="Ders Notu Yükle"
                     >
-                        <UploadNote onHideDialog={this.onHideDialog}/>
+                        <UploadNote onHideDialog={this.onHideDialog} getNotes={()=>this.getNotes()}/>
                     </Dialog>
 
                 </div>
@@ -117,11 +102,59 @@ class UploadedPage extends Component {
         )
     }
 
+    confirmAddNote = (note) => {
+        this.setState({
+            note: note,
+            removeNoteDialog: true
+        });
+    }
+
+
+    actionBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger"
+                        onClick={() => this.confirmAddNote(rowData)}/>
+            </React.Fragment>
+        );
+    }
+
+    hideDialog = () => {
+        this.setState({
+            removeNoteDialog: false,
+            note: undefined
+        });
+    }
+    deleteNote = async () => {
+        const {noteId} = this.state.note
+        deleteNotes(noteId).then(response => {
+            this.toast.show({
+                severity: 'success',
+                summary: 'Başarılı Mesaj',
+                detail: 'Not silindi.'
+            });
+            this.getNotes();
+        }).catch(err=>{
+            console.log(err.data)
+            this.toast.show({
+                severity: 'error',
+                summary: 'Hata Mesajı',
+                detail: 'Not silinemedi.'
+            });
+        })
+        this.hideDialog();
+    }
     render() {
+        const removeNoteDialogFooter = (
+            <React.Fragment>
+                <Button label="No" icon="pi pi-times" className="p-button-text" onClick={this.hideDialog}/>
+                <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={this.deleteNote}/>
+            </React.Fragment>
+        );
         return (
             <>
                 <Navbar/>
-
+                <Toast ref={(el) => this.toast = el}/>
                 <div className="container">
                     <Toolbar className="p-mb-4" right={this.rightToolbarTemplate}></Toolbar>
                     <DataTable ref={(el) => this.dt = el}
@@ -139,6 +172,7 @@ class UploadedPage extends Component {
                         <Column field="noteName" header="Name" sortable/>
                         <Column field="noteCategory" header="Category"/>
                         <Column body={this.viewPdfTemplate}/>
+                        <Column body={this.actionBodyTemplate}/>
                     </DataTable>
                     <div>
                         {this.state.noteData &&
@@ -147,6 +181,14 @@ class UploadedPage extends Component {
 
                     </div>
                 </div>
+                <Dialog visible={this.state.removeNoteDialog} style={{width: '450px'}}
+                        header="Confirm" modal footer={removeNoteDialogFooter} onHide={this.hideDialog}>
+                    <div className="confirmation-content">
+                        <i className="pi pi-exclamation-triangle p-mr-3" style={{fontSize: '2rem'}}/>
+                        {this.state.note &&
+                        <span>Not <b>{this.state.note.noteName}</b> silinecek emin misiniz?</span>}
+                    </div>
+                </Dialog>
             </>
         );
     }

@@ -32,5 +32,6 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     List<Note> findAllByNotePublisherUserId_UserName(String userName);
 
+    void deleteAllByNotePublisherUserId_UserName(String userName);
 
 }

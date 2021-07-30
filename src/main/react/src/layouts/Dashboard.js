@@ -6,10 +6,10 @@ import Footer from "../pages/Footer";
 
 export default class Dashboard extends Component {
 
-    state={
+    state = {
         notes: []
     }
-    searchNote=(notes) =>{
+    searchNote = (notes) => {
         this.setState({
             notes
         })
@@ -20,21 +20,21 @@ export default class Dashboard extends Component {
             <div>
                 <Navbar></Navbar>
                 <div className="flexgrid-demo">
-                    <div >
+                    <div>
                         <div className="p-col-5 p-offset-3">
                             <div className="box">
-                                <SearchBox searchNote ={this.searchNote}/>
+                                <SearchBox searchNote={this.searchNote}/>
                             </div>
                         </div>
                         <div className="p-col-7 p-offset-3">
                             <div className="box">
-                                <NoteList notes = {this.state.notes}/>
+                                <NoteList notes={this.state.notes}/>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <Footer></Footer>
+
             </div>
 
         )

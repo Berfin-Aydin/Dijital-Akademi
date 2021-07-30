@@ -6,6 +6,9 @@ import {Column} from "primereact/column";
 import {Dialog} from "primereact/dialog";
 import {deleteUser1, getUsers} from "../api/apiCalls";
 import {Button} from "primereact/button";
+import {Link} from "react-router-dom";
+import logo from "../images/logo.png";
+import {logoutSuccess} from "../redux/authActions";
 
 class AdminUser extends Component {
     state = {
@@ -19,7 +22,8 @@ class AdminUser extends Component {
     componentDidMount() {
         this.getUser();
     }
-    getUser =()=>{
+
+    getUser = () => {
         getUsers().then(response => {
                 console.log("users", response.data);
                 this.setState({
@@ -41,7 +45,7 @@ class AdminUser extends Component {
     actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger"
                         onClick={() => this.confirmAddNote(rowData)}/>
             </React.Fragment>
         );
@@ -60,7 +64,6 @@ class AdminUser extends Component {
                 summary: 'Başarılı Mesaj',
                 detail: 'Kullanıcı silindi'
             });
-            this.hideDeleteUserDialog();
             this.getUser();
         } catch (err) {
             console.log(err);
@@ -70,7 +73,11 @@ class AdminUser extends Component {
                 detail: 'Kullanıcı silinemedi.'
             });
         }
+        this.hideDeleteUserDialog();
 
+    }
+    onClickLogout = () => {
+        this.props.logoutSuccess();
     }
 
     render() {
@@ -82,6 +89,25 @@ class AdminUser extends Component {
         );
         return (
             <div>
+                <nav className="nav bg-purple justify-content-center">
+                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 p-mr-6">
+                        <Link to={"/adminPage"} className="nav-link lead">
+                            <Button class="btn btn-secondary">
+                                Ana Sayfa
+                            </Button>
+                        </Link>
+                    </div>
+                    <Link>
+                        <img src={logo} className="h-8" alt="..."/>
+                    </Link>
+                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 ">
+                        <Link to="/login" className="nav-link lead">
+                            <Button class="btn btn-secondary" onClick={this.onClickLogout} >
+                                Çıkış Yap
+                            </Button>
+                        </Link>
+                    </div>
+                </nav>
                 <Toast ref={(el) => this.toast = el}/>
                 <DataTable ref={(el) => this.dt = el}
                            value={this.state.users}
@@ -121,6 +147,12 @@ const mapStateToProps = (store) => {
         loginSuccess: store
     }
 }
-
-export default connect(mapStateToProps)(AdminUser);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logoutSuccess: () => {
+            return dispatch(logoutSuccess());
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AdminUser);
 

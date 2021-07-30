@@ -9,7 +9,7 @@ import java.util.List;
 public interface LibraryService {
     String addLibrary(NoteDto noteDto, String username);
 
-    String  deleteLibrary(Long id);
+    String  deleteLibrary(Long id, String userName);
 
     List<LibraryDto> getLibraryNotes(String username);
 }

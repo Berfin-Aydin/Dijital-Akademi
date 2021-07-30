@@ -5,6 +5,7 @@ import { InputMask } from 'primereact/inputmask';
 import axios from 'axios';
 import {connect} from "react-redux";
 import {signupHandler} from "../redux/authActions";
+import {Link} from "react-router-dom";
 
 class SignUp extends React.Component {
 
@@ -113,7 +114,8 @@ class SignUp extends React.Component {
                     <div className="col-md-3 register-left">
                         <h1>Dijital Akademi</h1>
                         <p>Ders Notlarını Arkadaşlarınla Paylaş</p>
-                        <input type="submit" name="" value="Login" /><br />
+                        {/*<input type="submit" name="" value="Login" /><br />*/}
+                        <Link className="nav-link lead" to="/login" ><input type="submit" name="" value="Login" /></Link>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">
@@ -201,7 +203,7 @@ class SignUp extends React.Component {
                                             </div>}
                                         </div>
                                         <button
-                                            className="btn btnRegister"
+                                            className="btn btnRegister btn-secondary"
                                             onClick={this.onClickSave}
                                             disabled={userEmailAddress === ""}
                                         >Register</button>

@@ -34,7 +34,7 @@ export const addNote = (body, category, userName) => {
     return axios.post(`/api/note/${userName}/${category}`, body);
 }
 
-export const addNoteToLibrary = (userName, note ) => {
+export const addNoteToLibrary = (userName, note) => {
     return axios.post(`/api/library/addLibrary/${userName}`, note);
 }
 export const getLibraryNotes = (userName) => {
@@ -69,6 +69,11 @@ export const deleteNotes = (noteId) => {
     return axios.delete(`/api/note/deleteNotes/${noteId}`);
 }
 
+//kütüphaneden not silme
+export const deleteNotesFromLibrary = (noteId, userName) => {
+    return axios.delete(`/api/library/deleteLibrary/${noteId}/${userName}`);
+}
+
 export const getNoteByUserName = (userName) => {
     return axios.get(`/api/note/getNotesByUser/${userName}`);
 }
@@ -76,3 +81,8 @@ export const getNoteByUserName = (userName) => {
 export const getAbout = (userName) => {
     return axios.get(`/api/about/getAbout/${userName}`);
 }
+
+export const updateAbout = (userName, body) => {
+    return axios.post(`/api/about/createAbout/${userName}`, body);
+}
+

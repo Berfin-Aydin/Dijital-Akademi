@@ -134,4 +134,16 @@ public class NoteServiceImpl implements NoteService {
     public Note getNoteById(Long id) {
         return noteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not Bulunamadı"));
     }
+
+    public Boolean deletebyUserId(String userName){
+        try {
+            libraryRepository.deleteAllByUserName(userName);
+            noteRepository.deleteAllByNotePublisherUserId_UserName(userName);
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("not bulunamadı" + e);
+        }
+        return true;
+    }
+
 }

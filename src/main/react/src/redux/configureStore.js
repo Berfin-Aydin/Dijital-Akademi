@@ -14,7 +14,6 @@ const getStateFromStorage = () => {
     let stateInLocalStorage = {
         isLoggedIn: false,
         username: undefined,
-        image: undefined,
         password: undefined
     }
     if (hoaxauth) { //bir veri varsa localStorage'daki bilgiyi alacak

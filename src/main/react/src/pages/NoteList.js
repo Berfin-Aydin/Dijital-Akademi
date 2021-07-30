@@ -69,23 +69,31 @@ class NoteList extends Component {
         //Kütüphanaye not ekleme işlemleri olacak
         const userName = this.props.loginSuccess.userName
         const {note} = this.state
-        try {
-            await addNoteToLibrary(userName, note);
+
+        addNoteToLibrary(userName, note).then(response => {
             this.toast.show({
                 severity: 'success',
                 summary: 'Başarılı Mesaj',
                 detail: 'Kütüphaneye Eklendi'
             });
-            this.hideAddLibraryDialog()
-        }catch (err) {
-            console.log(err);
-            this.toast.show({
-                severity: 'error',
-                summary: 'Hata Mesajı',
-                detail: 'Kütüphaneye eklenemedi.'
-            });
-        }
+        }).catch(error=>{
+            const err = Object.assign({}, error)
+            if(err.response.data.message === "Aynı not ekli"){
+                this.toast.show({
+                    severity: 'error',
+                    summary: 'Hata Mesajı',
+                    detail: 'Kütüphanede not ekli!'
+                });
+            }else{
+                this.toast.show({
+                    severity: 'error',
+                    summary: 'Hata Mesajı',
+                    detail: 'Kütüphaneye eklenemedi.'
+                });
+            }
 
+        })
+        this.hideAddLibraryDialog()
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.props.notes !== prevProps.notes){

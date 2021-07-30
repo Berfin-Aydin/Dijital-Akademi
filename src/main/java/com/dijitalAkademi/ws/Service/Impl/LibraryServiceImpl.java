@@ -29,10 +29,16 @@ public class LibraryServiceImpl implements LibraryService {
         Library library = new Library();//library yeni bir veri eklenecek yeni bir satır oluşturacağım için new dedim
         Note note = noteServiceImp.getNoteById(noteDto.getNoteId());
         User user = userRepository.findByUserName(userName);
-        if(note == null){
+
+        Library getLibraryByuserName = libraryRepository.getNoteByNoteId_NoteIdAndUserName(noteDto.getNoteId(), userName);
+        if (getLibraryByuserName != null) {
+            throw new IllegalArgumentException("Aynı not ekli");
+        }
+
+        if (note == null) {
             throw new IllegalArgumentException("Not bulunamadı");
         }
-        if(user == null){
+        if (user == null) {
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
         //library.setNoteId(note);//dto göndermediğim için
@@ -50,10 +56,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public String deleteLibrary(Long id) {
+    public String deleteLibrary(Long id, String userName) {
         try {
-            libraryRepository.deleteByNoteId_NoteId(id);
+            Library note = libraryRepository.getNoteByNoteId_NoteIdAndUserName(id, userName);
+            libraryRepository.deleteById(note.getLibraryId());
         } catch (Exception e) {
+            System.out.println(e);
             throw new IllegalArgumentException("Not bulunamadı");
         }
         return ("Not silindi");

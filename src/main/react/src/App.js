@@ -19,6 +19,8 @@ import AdminUser from "./pages/AdminUser";
 import AdminNote from "./pages/AdminNote";
 import AboutPage from "./pages/AboutPage";
 import AdminAbout from "./pages/AdminAbout";
+
+import "./App.css"
 class App extends React.Component {
 
     render() {

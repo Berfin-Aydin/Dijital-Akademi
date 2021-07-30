@@ -25,11 +25,7 @@ class Profile extends Component {
     componentDidMount() {
         //sayfa yüklendiğinde çalışacak
         const userName = this.props.loginSuccess.userName;
-
-        console.log("ressponse", userName)
-
         getUser(userName).then(response => {
-            console.log("resssssponse", response)
             this.setState({
                 userName: response.data.userName,
                 userEmailAddress: response.data.userEmailAddress,

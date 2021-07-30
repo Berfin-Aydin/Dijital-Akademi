@@ -17,18 +17,17 @@ public class About implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="img")
-    private String aboutImg;
+//    @Column(name="img")
+//    private String aboutImg;
 
     @Column(name="vision")
-
     private String aboutVision;
 
     @Column(name="mission")
     private String aboutMission;
 
-    @Column(name="contact")
 
+    @Column(name="contact")
     private String aboutContact;
 
     @Column(name = "user_name")

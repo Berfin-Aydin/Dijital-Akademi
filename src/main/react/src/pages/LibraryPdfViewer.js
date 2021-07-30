@@ -12,29 +12,6 @@ import { Worker } from '@react-pdf-viewer/core'; // install this library
 
 export const LibraryPdfViewer = (props) => {
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
-    // onchange event
-    const fileType=['application/pdf'];
-    // const handlePdfFileChange=(e)=>{
-    //     let selectedFile=e.target.files[0];
-    //     if(selectedFile){
-    //         if(selectedFile&&fileType.includes(selectedFile.type)){
-    //             let reader = new FileReader();
-    //             reader.readAsDataURL(selectedFile);
-    //             reader.onloadend = (e) =>{
-    //                 setPdfFile(e.target.result);
-    //                 setPdfFileError('');
-    //             }
-    //         }
-    //         else{
-    //             setPdfFile(null);
-    //             setPdfFileError('Please select valid pdf file');
-    //         }
-    //     }
-    //     else{
-    //         console.log('select your file');
-    //     }
-    // }
-
     return (
         <div className='container'>
 

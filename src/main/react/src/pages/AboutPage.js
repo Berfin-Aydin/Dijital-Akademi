@@ -13,9 +13,7 @@ class AboutPage extends Component {
     componentDidMount() {
         const userName = this.props.loginSuccess.userName;
         getAbout(userName).then(response => {
-            console.log("resssssponse", response.data)
             this.setState({
-
                 about: response.data
 
             })
@@ -32,8 +30,8 @@ class AboutPage extends Component {
                         <div className="card">
                             <div className="p-grid">
                                 <div className="p-col-12 p-md-4">
-                                    <ScrollPanel style={{ width: '100%', height: '200px' }}>
-                                        <div style={{ padding: '1em', lineHeight: '1.5' }}>
+                                    <ScrollPanel style={{width: '100%', height: '200px'}}>
+                                        <div style={{padding: '1em', lineHeight: '1.5'}}>
                                             <h2>Biz Kimiz?</h2>
                                             {this.state.about.aboutContact}
 
@@ -41,8 +39,8 @@ class AboutPage extends Component {
                                     </ScrollPanel>
                                 </div>
                                 <div className="p-col-12 p-md-4">
-                                    <ScrollPanel style={{ width: '100%', height: '200px' }} className="custombar1">
-                                        <div style={{ padding: '1em', lineHeight: '1.5' }}>
+                                    <ScrollPanel style={{width: '100%', height: '200px'}} className="custombar1">
+                                        <div style={{padding: '1em', lineHeight: '1.5'}}>
                                             <h2>Vizyonumuz</h2>
                                             {this.state.about.aboutVision}
 
@@ -50,8 +48,8 @@ class AboutPage extends Component {
                                     </ScrollPanel>
                                 </div>
                                 <div className="p-col-12 p-md-4">
-                                    <ScrollPanel style={{ width: '100%', height: '200px' }} className="custombar2">
-                                        <div style={{ padding: '1em', lineHeight: '1.5', width: '600px' }}>
+                                    <ScrollPanel style={{width: '100%', height: '200px'}} className="custombar2">
+                                        <div style={{padding: '1em', lineHeight: '1.5', width: '600px'}}>
                                             <h2>Misyonumuz</h2>
                                             {this.state.about.aboutMission}
                                         </div>

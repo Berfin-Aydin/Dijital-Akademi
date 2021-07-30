@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./Login.css"
 import {loginHandler} from "../redux/authActions";
 import {connect} from 'react-redux'
-import {useHistory} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 class Login extends React.Component {
     state = {
         userEmailAddress: "",
@@ -64,6 +64,7 @@ class Login extends React.Component {
                     <div className="col-md-3 register-left">
                         <h1>Dijital Akademi</h1>
                         <p>Ders Notlarını Arkadaşlarınla Paylaş</p>
+                        <Link className="nav-link lead" to="/signUp" ><input type="submit" name="" value="Sing up" /></Link>
                     </div>
                     <div className="col-md-9 register-right">
                         <div className="tab-content" id="myTabContent">
@@ -75,7 +76,7 @@ class Login extends React.Component {
                                         <div className="form-group mb-3">
                                             <div className="form-floating">
                                                 <input type="text" class="form-control" id="floatingInput" name="userEmailAddress" placeholder="name@example.com" onChange={this.onChangeInput} />
-                                                <label for="floatingInput">E-posta</label>
+                                                <label for="floatingInput">Kullanıcı adı</label>
                                                 <div style={{ fontSize: 12, color: "red" }}>
                                                 </div>
                                             </div>
@@ -87,16 +88,16 @@ class Login extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="form-group col-md-9" >
+                                    <div className="form-group col-md-9 register-right " >
                                         <button
                                             name="users"
-                                            className="btn btnRegister"
+                                            className="btn btn-secondary "
                                             onClick={(this.onClickSave)}
 
                                         >Giriş yap</button>
                                         <button
                                             name="admin"
-                                            className="btn btnRegister"
+                                            className="btn btn-secondary p-ml-2"
                                             onClick={(this.onClickSave)}
 
                                         >Admin Girişi</button>

@@ -9,6 +9,7 @@ import javassist.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,11 +19,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    NoteServiceImpl noteServiceImpl;
     BCryptPasswordEncoder bCryptPasswordEncoder;
     // veritabanında gönderdiğiklerim  user frontend gönderdikleirm veritabanına dto olacak
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           NoteServiceImpl noteServiceImpl) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.noteServiceImpl = noteServiceImpl;
     }
 
     @Override
@@ -153,8 +158,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public String deleteUser1(String userName) {
         User user= userRepository.findByUserName(userName);
+        Boolean deletebyUserId = noteServiceImpl.deletebyUserId(userName);
+        if(!deletebyUserId){
+            throw new IllegalArgumentException("user ait notlar silinemedi");
+        }
         userRepository.delete(user);
 
         try{

@@ -24,9 +24,9 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.addLibrary(noteDto, userName));
     }
 
-    @DeleteMapping("/deleteLibrary/{id}")
-    ResponseEntity<String> deleteLibrary(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.ok(libraryService.deleteLibrary(id));
+    @DeleteMapping("/deleteLibrary/{id}/{userName}")
+    ResponseEntity<String> deleteLibrary(@PathVariable(name = "id") Long id, @PathVariable(name = "userName") String userName) {
+        return ResponseEntity.ok(libraryService.deleteLibrary(id, userName));
     }
 
     @GetMapping("/getLibraryNotes/{userName}")
@@ -34,6 +34,5 @@ public class LibraryController {
 
         return ResponseEntity.ok(libraryService.getLibraryNotes(userName));
     }
-
 
 }

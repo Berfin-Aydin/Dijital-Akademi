@@ -67,6 +67,7 @@ class UploadNote extends Component {
         }
         const response = await addNote(body, selectedCategory.code, userName);
         this.props.onHideDialog();
+        this.props.getNotes();
 
     }
 

@@ -8,6 +8,9 @@ import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Dialog} from "primereact/dialog";
 import LibraryPdfViewer from "./LibraryPdfViewer";
+import {Link} from "react-router-dom";
+import logo from "../images/logo.png";
+import {logoutSuccess} from "../redux/authActions";
 
 class AdminNote extends Component {
     state = {
@@ -20,6 +23,10 @@ class AdminNote extends Component {
 
     componentDidMount() {
         //Sayfa yüklenirken bir kere çalışır
+        this.getAdminNotes();
+    }
+
+    getAdminNotes = () => {
         getNotes().then(response => {
             this.setState({
                 notes: response.data
@@ -37,7 +44,7 @@ class AdminNote extends Component {
     actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger"
                         onClick={() => this.confirmAddNote(rowData)}/>
             </React.Fragment>
         );
@@ -62,19 +69,20 @@ class AdminNote extends Component {
             this.toast.show({
                 severity: 'success',
                 summary: 'Başarılı Mesaj',
-                detail: 'Kütüphaneye Eklendi'
+                detail: 'Not silindi.'
             });
-            this.hideAddLibraryDialog()
+            this.getAdminNotes();
         } catch (err) {
             console.log(err);
             this.toast.show({
                 severity: 'error',
                 summary: 'Hata Mesajı',
-                detail: 'Kütüphaneye eklenemedi.'
+                detail: 'Not silinemedi.'
             });
         }
-
+        this.hideAddLibraryDialog();
     }
+
     getNoteData = async (rowData) => {
         if (rowData === {} || rowData === undefined)
             return;
@@ -99,6 +107,9 @@ class AdminNote extends Component {
             </React.Fragment>
         );
     }
+    onClickLogout = () => {
+        this.props.logoutSuccess();
+    }
 
     render() {
         const addLibraryDialogFooter = (
@@ -109,6 +120,25 @@ class AdminNote extends Component {
         );
         return (
             <div>
+                <nav className="nav bg-purple justify-content-center">
+                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 ">
+                        <Link to={"/adminPage"} className="nav-link lead">
+                            <Button class="btn btn-secondary">
+                                Ana Sayfa
+                            </Button>
+                        </Link>
+                    </div>
+                    <Link>
+                        <img src={logo} className="h-8" alt="..."/>
+                    </Link>
+                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 p-mr-6">
+                        <Link to="/login" className="nav-link lead">
+                            <Button class="btn btn-secondary" onClick={this.onClickLogout} >
+                                Çıkış Yap
+                            </Button>
+                        </Link>
+                    </div>
+                </nav>
                 <Toast ref={(el) => this.toast = el}/>
                 <DataTable ref={(el) => this.dt = el}
                            value={this.state.notes}
@@ -141,7 +171,7 @@ class AdminNote extends Component {
                         header="Confirm" modal footer={addLibraryDialogFooter} onHide={this.hideAddLibraryDialog}>
                     <div className="confirmation-content">
                         <i className="pi pi-exclamation-triangle p-mr-3" style={{fontSize: '2rem'}}/>
-                        {this.state.note && <span>Kütüphaneye eklensin  <b>{this.state.note.noteName}</b> mi?</span>}
+                        {this.state.note && <span>Not <b>{this.state.note.noteName}</b> silinsin mi?</span>}
                     </div>
                 </Dialog>
             </div>
@@ -149,10 +179,12 @@ class AdminNote extends Component {
     }
 }
 
-const mapStateToProps = (store) => {
+
+const mapDispatchToProps = (dispatch) => {
     return {
-        loginSuccess: store
+        logoutSuccess: () => {
+            return dispatch(logoutSuccess());
+        }
     }
 }
-
-export default connect(mapStateToProps)(AdminNote);
+export default connect(null, mapDispatchToProps)(AdminNote);

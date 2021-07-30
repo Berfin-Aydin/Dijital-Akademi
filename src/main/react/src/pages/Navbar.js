@@ -10,7 +10,6 @@ import {logoutSuccess, signupHandler} from "../redux/authActions";
 
 class Navbar extends React.Component {
     onClickLogout = () => {
-        console.log("çıkış yap")
         this.props.logoutSuccess();
     }
 

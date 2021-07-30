@@ -9,38 +9,39 @@ import org.springframework.stereotype.Service;
 @Service
 public class AboutServiceImpl implements AboutService {
     AboutRepository aboutRepository;
-    public AboutServiceImpl(AboutRepository aboutRepository){
-        this.aboutRepository=aboutRepository;
+
+    public AboutServiceImpl(AboutRepository aboutRepository) {
+        this.aboutRepository = aboutRepository;
 
     }
 
     @Override
     public AboutDto createAbout(AboutDto aboutDto, String userName) {
-        About about=aboutRepository.findByUserName(userName);
-    if(about!=null){
-        about.setId(aboutDto.getId());
-    }
-    about.setAboutImg(aboutDto.getAboutImg());
-about.setAboutVision(aboutDto.getAboutVision());
-about.setAboutMission(aboutDto.getAboutMission());
-about.setAboutContact(aboutDto.getAboutContact());
+        About about = aboutRepository.findByUserName(userName);
+        if (about != null) {
+            about.setId(aboutDto.getId());
+        }
+        about.setUserName(userName);
+        about.setAboutVision(aboutDto.getAboutVision());
+        about.setAboutMission(aboutDto.getAboutMission());
+        about.setAboutContact(aboutDto.getAboutContact());
 
-aboutRepository.save(about);
+        aboutRepository.save(about);
 
         return aboutDto;
     }
 
     @Override
     public AboutDto getAbout(String userName) {
-        About about=aboutRepository.findByUserName(userName);
-        if(userName==null || about == null){
+        About about = aboutRepository.findByUserName(userName);
+        if (userName == null || about == null) {
             throw new IllegalArgumentException("Hakkımda bilgisi bulunamadı");
         }
         //veritabına bir değişiklik yapmauyacğım için AboutDTO kullandım
-        AboutDto aboutDto=new AboutDto();
+        AboutDto aboutDto = new AboutDto();
         aboutDto.setUserName(about.getUserName()); //about get ile oku bunu dto(kullanıcıya gösterdiğim yere ata kullanıc setlenerek görünsün
-       // aboutDto.setAboutImg(about.getAboutImg());
         aboutDto.setAboutVision(about.getAboutVision());
+        aboutDto.setId(about.getId());
         aboutDto.setAboutMission(about.getAboutMission());
         aboutDto.setAboutContact(about.getAboutContact());
         return aboutDto;

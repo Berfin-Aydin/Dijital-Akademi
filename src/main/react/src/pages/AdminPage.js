@@ -1,29 +1,38 @@
 import React, {Component} from 'react';
 import "./AdminPage.css"
-import { PrimeIcons } from 'primereact/api';
+import {PrimeIcons} from 'primereact/api';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import logo from "../images/logo.png";
 import {Button} from "@material-ui/core";
 import {logoutSuccess} from "../redux/authActions";
+
 class AdminPage extends Component {
 
-    onClickLogout=()=>{
+    onClickLogout = () => {
         this.props.logoutSuccess();
     }
 
     render() {
         return (
             <div>
-
                 <nav className="nav bg-purple justify-content-center">
+                    <div className="d-flex align-items-lg-center mt-4 mt-lg-0 p-mr-6" >
+                        <Link to={"/adminPage"} className="nav-link lead" >
+                            <Button class="btn btn-secondary">
+                                Ana Sayfa
+                            </Button>
+                        </Link>
+                    </div>
                     <Link>
-                        <img   src={logo} class="h-8"  alt="..."  />
+                        <img src={logo} class="h-8" alt="..."/>
                     </Link>
                     <div className="d-flex align-items-lg-center mt-4 mt-lg-0 ">
-                        <Button class="btn btn-secondary" onClick={this.onClickLogout} component={Link} to="/login">
+                        <Button class="btn btn-secondary" onClick={this.onClickLogout} component={Link}
+                                to="/login">
                             Çıkış Yap
                         </Button>
+
                     </div>
                 </nav>
                 <div>
@@ -42,7 +51,7 @@ class AdminPage extends Component {
                                             <i className="pi pi-user-edit" style={{'fontSize': '2em'}}></i>
                                             <hr/>
 
-                                            <Link className="card-title lead" to="/adminUser">Kullanıcılar </Link>
+                                            <Link className="nav-link lead" to="/adminUser">Kullanıcılar </Link>
                                         </div>
                                     </div>
                                 </a>
@@ -54,7 +63,7 @@ class AdminPage extends Component {
                                         <div className="card-body">
                                             <i className="pi pi-file" style={{'fontSize': '2em'}}></i>
                                             <hr/>
-                                            <Link className="card-title lead" to="/adminNote">Notlar </Link>
+                                            <Link className="nav-link lead" to="/adminNote">Notlar </Link>
                                         </div>
                                     </div>
                                 </a>
@@ -66,19 +75,7 @@ class AdminPage extends Component {
                                         <div className="card-body">
                                             <i className="pi pi-info-circle" style={{'fontSize': '2em'}}></i>
                                             <hr/>
-                                            <Link className="card-title lead" to="/adminAbout">Hakkımızda </Link>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div className="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
-                                <a className="text-decoration-none" href="#">
-                                    <div className="card p-3 shadow bg-purple text-center border-0">
-                                        <div className="card-body">
-                                            <i className="pi pi-home" style={{'fontSize': '2em'}}></i>
-                                            <hr/>
-                                            <p className="card-title lead">Site Ana Sayfa</p>
+                                            <Link className="nav-link lead" to="/AdminAbout">Hakkımızda </Link>
                                         </div>
                                     </div>
                                 </a>
@@ -87,14 +84,8 @@ class AdminPage extends Component {
                         </div>
                     </div>
 
-                    <footer className="footer fixed-bottom">
-                        <div className="row text-center p-3">
-                            <p className="small text-muted">berfin</p>
-                        </div>
-                    </footer>
-
-
-                    <div className="modal fade" id="modelHELP" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId"
+                    <div className="modal fade" id="modelHELP" tabIndex="-1" role="dialog"
+                         aria-labelledby="modelTitleId"
                          aria-hidden="true">
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
@@ -112,7 +103,8 @@ class AdminPage extends Component {
                                     </p>
                                     <hr/>
                                     <p><i className="fa fa-envelope mr-3" aria-hidden="true"></i></p>
-                                    <p><i className="fa fa-volume-control-phone mr-3" aria-hidden="true"></i> +91-123654789
+                                    <p><i className="fa fa-volume-control-phone mr-3"
+                                          aria-hidden="true"></i> +91-123654789
                                     </p>
 
                                 </div>
@@ -126,6 +118,7 @@ class AdminPage extends Component {
         );
     }
 }
+
 const mapStateToProps = (store) => {
     return {
         loginSuccess: store
