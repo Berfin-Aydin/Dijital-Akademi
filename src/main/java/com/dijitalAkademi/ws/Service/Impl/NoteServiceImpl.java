@@ -9,6 +9,7 @@ import com.dijitalAkademi.ws.entity.Categories;
 import com.dijitalAkademi.ws.entity.Library;
 import com.dijitalAkademi.ws.entity.Note;
 import com.dijitalAkademi.ws.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,17 +18,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
 
-    NoteRepository noteRepository;
-    UserRepository userRepository;
-    LibraryRepository libraryRepository;
-
-    public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository, LibraryRepository libraryRepository) {
-        this.noteRepository = noteRepository;
-        this.userRepository = userRepository;
-        this.libraryRepository = libraryRepository;
-    }
+    private final NoteRepository noteRepository;
+    private final UserRepository userRepository;
+    private final LibraryRepository libraryRepository;
 
     public NoteDto addedNote(NoteDto noteDto, Categories category, String userName) {
 
@@ -36,7 +32,6 @@ public class NoteServiceImpl implements NoteService {
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
 
-        //String docname = file.getOriginalFilename(); //seçilen dosyanın adını aldık
         try {
 
             Note doc = new Note();
@@ -45,7 +40,6 @@ public class NoteServiceImpl implements NoteService {
             doc.setNoteDate(new Date());
             doc.setNotePublisherUserId(user);
             doc.setDocType(noteDto.getDocType());
-            //doc.setDocType(file.getContentType());
             doc.setData(noteDto.getData());
             noteRepository.save(doc);
 

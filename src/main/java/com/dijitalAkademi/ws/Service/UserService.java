@@ -15,8 +15,6 @@ public interface UserService {
 
     UserDto login(UserDto userDto);
 
-    Long deleteUser(Long userName);
-
     List<UserDto> getUsers();
 
     Boolean register(RegistrationRequest registrationRequest);

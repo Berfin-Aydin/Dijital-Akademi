@@ -5,7 +5,6 @@ import com.dijitalAkademi.ws.Dto.UserDto;
 import com.dijitalAkademi.ws.Repository.UserRepository;
 import com.dijitalAkademi.ws.Service.UserService;
 import com.dijitalAkademi.ws.entity.User;
-import javassist.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     NoteServiceImpl noteServiceImpl;
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    // veritabanında gönderdiğiklerim  user frontend gönderdikleirm veritabanına dto olacak
+
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
                            NoteServiceImpl noteServiceImpl) {
@@ -37,8 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("emai,l var");
         }
 
-        User user = new User();//yeni bir kullanıcı için satır oluşturacak
-        // kullanıcı tarafından doldurulan bilgiler user entity'e atanacak
+        User user = new User();
         user.setUserName(userDto.getUserName());
         user.setUserGender(userDto.getUserGender());
         user.setUserSurname(userDto.getUserSurname());
@@ -53,20 +51,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(String userName, UserDto userDto) {
-        //new demedşm çünkü yeni bir satır açmama gerek kalmadı zaten satrım var
 
-        User user = userRepository.findByUserName(userName); //id'ye sahip olan entity bulunacak
+        User user = userRepository.findByUserName(userName);
         if (user == null) {
             throw new IllegalArgumentException("user bulunamadı");
         }
-//user tarafından güncellencek olan bilgiler tekrar user entity'e atandı
         user.setUserId(user.getUserId());
         user.setUserEmailAddress(userDto.getUserEmailAddress());
         user.setUserName(userDto.getUserName());
         user.setUserGender(userDto.getUserGender());
         user.setUserSurname(userDto.getUserSurname());
         user.setUserPhone(userDto.getUserPhone());
-        //user.setUserPassword(userDto.getUserPassword());
         userRepository.save(user);
 
 
@@ -75,12 +70,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(String userName) {
-        //yeni bir satır açmama gerek yok zatenbenim satırım var sadece giriş biligileri kontorl edilecek
         User user = userRepository.findByUserName(userName);
         if (user == null) {
             throw new IllegalArgumentException("Kullanıcı bulunamadı");
         }
-        UserDto userDto = new UserDto(); // frontEnd bizden UserDto beklediği için entitydeki veriler userDto'ya atanacak
+        UserDto userDto = new UserDto();
         userDto.setUserEmailAddress(user.getUserEmailAddress());
         userDto.setUserPhone(user.getUserPhone());
         userDto.setUserGender(user.getUserGender());
@@ -104,18 +98,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long deleteUser(Long id) {
-        try {
-            userRepository.deleteById(id);
-
-        }catch (Exception e)
-        {
-            throw new IllegalArgumentException("user bulunamadı");
-        }
-        return id;
-    }
-
-    @Override
     public List<UserDto> getUsers() {
 
         List<User> userList = userRepository.findAll();
@@ -125,6 +107,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
     }
+
     private UserDto userToUserDTO(User user) {
         UserDto userDto = new UserDto();
         userDto.setUserPassword(user.getUserPassword());
@@ -140,7 +123,7 @@ public class UserServiceImpl implements UserService {
     public Boolean register(RegistrationRequest registrationRequest) {
         try {
             User userByUserName = userRepository.findByUserName(registrationRequest.getUserName());
-            if(userByUserName != null){
+            if (userByUserName != null) {
                 return Boolean.FALSE;
             }
             User user = new User();
@@ -148,11 +131,11 @@ public class UserServiceImpl implements UserService {
             user.setUserGender(registrationRequest.getUserGender());
             user.setUserSurname(registrationRequest.getUserSurname());
             user.setUserPhone(registrationRequest.getUserPhone());
-            user.setUserPassword(bCryptPasswordEncoder.encode(registrationRequest.getUserPassword()));//password  şifreleyerek koyacak
+            user.setUserPassword(bCryptPasswordEncoder.encode(registrationRequest.getUserPassword()));
             user.setUserEmailAddress(registrationRequest.getUserEmailAddress());
             userRepository.save(user);
             return Boolean.TRUE;
-        }catch (Exception e){
+        } catch (Exception e) {
             return Boolean.FALSE;
         }
     }
@@ -160,16 +143,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String deleteUser1(String userName) {
-        User user= userRepository.findByUserName(userName);
+        User user = userRepository.findByUserName(userName);
         Boolean deletebyUserId = noteServiceImpl.deletebyUserId(userName);
-        if(!deletebyUserId){
+        if (!deletebyUserId) {
             throw new IllegalArgumentException("user ait notlar silinemedi");
         }
         userRepository.delete(user);
 
-        try{
+        try {
             //userRepository.deleteByUserName(userName);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("user bulunamadı");
         }
         return userName;

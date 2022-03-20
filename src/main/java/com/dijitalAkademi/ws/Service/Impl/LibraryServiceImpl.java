@@ -26,7 +26,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public String addLibrary(NoteDto noteDto, String userName) {
-        Library library = new Library();//library yeni bir veri eklenecek yeni bir satır oluşturacağım için new dedim
+        Library library = new Library();
         Note note = noteServiceImp.getNoteById(noteDto.getNoteId());
         User user = userRepository.findByUserName(userName);
 
